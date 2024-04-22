@@ -1,0 +1,28 @@
+package com.myapp.myapplication
+
+import android.os.Bundle
+import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+
+class TrainingDetailsActivity : AppCompatActivity() {
+    private val exerciseViewModel: ExerciseViewModel by viewModels {
+        ExerciseViewModelFactory((application as WordsApplication).repository)
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_training_view)
+
+        // Pobieranie danych przekazanych z poprzedniej aktywności
+        val selectedItem = intent.getStringExtra("currentName")
+
+        // Wykorzystanie danych w nowej aktywności
+        // Na przykład, ustawianie tekstu na TextView
+        val textView: TextView = findViewById(R.id.textView2)
+        textView.text = selectedItem
+
+        //getExercisesForTraining
+
+
+    }
+}
