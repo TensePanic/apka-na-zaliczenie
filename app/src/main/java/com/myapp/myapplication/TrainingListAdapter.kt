@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class TrainingListAdapter(private val context: Context): ListAdapter<Training, TrainingListAdapter.WordViewHolder>(WordsComparator()) {
+class TrainingListAdapter(private val context: Context): ListAdapter<Training, TrainingListAdapter.TrainingViewHolder>(TrainingsComparator()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
-        return WordViewHolder.create(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingViewHolder {
+        return TrainingViewHolder.create(parent)
     }
 
-    override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TrainingViewHolder, position: Int) {
         val current = getItem(position)
         holder.bind(current.trainingName)
 
@@ -28,7 +28,7 @@ class TrainingListAdapter(private val context: Context): ListAdapter<Training, T
         }
     }
 
-    class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class TrainingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val wordItemView: TextView = itemView.findViewById(R.id.textView)
 
         fun bind(text: String?) {
@@ -36,15 +36,15 @@ class TrainingListAdapter(private val context: Context): ListAdapter<Training, T
         }
 
         companion object {
-            fun create(parent: ViewGroup): WordViewHolder {
+            fun create(parent: ViewGroup): TrainingViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
                     .inflate(R.layout.recyclerview_item, parent, false)
-                return WordViewHolder(view)
+                return TrainingViewHolder(view)
             }
         }
     }
 
-    class WordsComparator : DiffUtil.ItemCallback<Training>() {
+    class TrainingsComparator : DiffUtil.ItemCallback<Training>() {
         override fun areItemsTheSame(oldItem: Training, newItem: Training): Boolean {
             return oldItem === newItem
         }

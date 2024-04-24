@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class TrainingDetailsActivity : AppCompatActivity() {
     private val exerciseViewModel: ExerciseViewModel by viewModels {
-        ExerciseViewModelFactory((application as WordsApplication).repository)
+        ExerciseViewModelFactory((application as TrainingsApplication).repository)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
