@@ -1,10 +1,15 @@
-package com.myapp.myapplication
+package com.myapp.myapplication.data_access_layer
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.myapp.myapplication.data_access_layer.model.Exercise
+import com.myapp.myapplication.data_access_layer.model.Training
+import com.myapp.myapplication.data_access_layer.model.TrainingExerciseJoin
+import com.myapp.myapplication.data_access_layer.dao.ExerciseDao
+import com.myapp.myapplication.data_access_layer.dao.TrainingDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.myapp.myapplication.activity_view.TrainingDetailsActivity
+import com.myapp.myapplication.data_access_layer.model.Exercise
 
 class ExerciseListAdapter(private val context: Context): ListAdapter<Exercise, ExerciseListAdapter.ExerciseViewHolder>(ExerciseComparator()) {
 

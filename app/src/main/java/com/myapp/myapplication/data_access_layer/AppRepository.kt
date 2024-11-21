@@ -1,12 +1,17 @@
-package com.myapp.myapplication
+package com.myapp.myapplication.data_access_layer
 
 import androidx.annotation.WorkerThread
+import com.myapp.myapplication.data_access_layer.model.Exercise
+import com.myapp.myapplication.data_access_layer.dao.ExerciseDao
+import com.myapp.myapplication.data_access_layer.model.Training
+import com.myapp.myapplication.data_access_layer.dao.TrainingDao
 import kotlinx.coroutines.flow.Flow
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
 // instead of the whole database, because you only need access to the DAO
 class AppRepository(private val trainingDao: TrainingDao,
-                    private val exerciseDao: ExerciseDao) {
+                    private val exerciseDao: ExerciseDao
+) {
 
     // Room executes all queries on a separate thread.
     // Observed Flow will notify the observer when the data has changed.

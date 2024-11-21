@@ -1,9 +1,10 @@
-package com.myapp.myapplication
+package com.myapp.myapplication.data_access_layer.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.myapp.myapplication.data_access_layer.model.Exercise
 import kotlinx.coroutines.flow.Flow
 
 @Dao

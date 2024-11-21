@@ -1,6 +1,8 @@
 package com.myapp.myapplication
 
 import android.app.Application
+import com.myapp.myapplication.data_access_layer.AppRepository
+import com.myapp.myapplication.data_access_layer.TrainingRoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 

@@ -1,7 +1,9 @@
-package com.myapp.myapplication
+package com.myapp.myapplication.data_access_layer.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import com.myapp.myapplication.data_access_layer.model.Exercise
+import com.myapp.myapplication.data_access_layer.model.Training
 
 
 @Entity(

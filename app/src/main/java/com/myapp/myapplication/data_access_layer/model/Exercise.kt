@@ -1,4 +1,4 @@
-package com.myapp.myapplication
+package com.myapp.myapplication.data_access_layer.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

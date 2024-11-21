@@ -14,16 +14,16 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".AllExercisesActivity"
+            android:name=".activity_view.AllExercisesActivity"
             android:exported="false" />
         <activity
-            android:name=".NewTrainingActivity"
+            android:name=".activity_view.NewTrainingActivity"
             android:exported="false" />
         <activity
-            android:name=".TrainingDetailsActivity"
+            android:name=".activity_view.TrainingDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity_view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
