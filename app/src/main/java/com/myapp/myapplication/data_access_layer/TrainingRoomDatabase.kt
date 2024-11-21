@@ -23,7 +23,7 @@ abstract class TrainingRoomDatabase : RoomDatabase() {
 
     private class TrainingDatabaseCallback(
         private val scope: CoroutineScope
-    ) : RoomDatabase.Callback() {
+    ) : Callback() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
