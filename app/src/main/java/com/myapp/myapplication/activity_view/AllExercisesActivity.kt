@@ -1,11 +1,13 @@
 package com.myapp.myapplication.activity_view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -19,6 +21,7 @@ import com.myapp.myapplication.view_model.ExerciseViewModel
 import com.myapp.myapplication.view_model.ExerciseViewModelFactory
 import com.myapp.myapplication.R
 import com.myapp.myapplication.TrainingsApplication
+import com.myapp.myapplication.data_access_layer.model.Exercise
 
 class AllExercisesActivity : AppCompatActivity() {
 
@@ -86,4 +89,29 @@ class AllExercisesActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intentData)
+
+        if (requestCode == addExerciseActivityRequestCode && resultCode == Activity.RESULT_OK) {
+            intentData?.let { data ->
+                val name = data.getStringExtra(AddExerciseActivity.EXTRA_NAME)
+                val description = data.getStringExtra(AddExerciseActivity.EXTRA_DESCRIPTION)
+                val type = data.getStringExtra(AddExerciseActivity.EXTRA_TYPE)
+
+                if (!name.isNullOrEmpty() && !type.isNullOrEmpty()) {
+                    // Tworzymy obiekt Exercise i zapisujemy go w bazie danych
+                    val exercise = Exercise(0, name, description, type)
+                    exerciseViewModel.insert(exercise)
+                }
+            }
+        } else {
+            Toast.makeText(
+                applicationContext,
+                R.string.empty_not_saved,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
 }

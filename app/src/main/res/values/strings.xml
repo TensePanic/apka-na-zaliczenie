@@ -3,8 +3,9 @@
     <string name="add_training">Add training</string>
     <string name="hint_training">Insert new training name</string>
     <string name="hint_exercise">Insert new exercise name</string>
+    <string name="hint_description">Insert description for your exercise</string>
     <string name="button_save">Save</string>
-    <string name="empty_not_saved">Word not saved because it is empty.</string>
+    <string name="empty_not_saved">Item not saved because it is empty.</string>
     <string name="button_home">Home</string>
     <string name="button_exercises">Exercises</string>
 </resources>

@@ -1,27 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<!-- ScrollView umożliwia przewijanie, jeśli zawartość nie mieści się na ekranie -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/edit_exercise"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/min_height"
-        android:fontFamily="sans-serif-light"
-        android:hint="@string/hint_exercise"
-        android:inputType="textAutoComplete"
-        android:layout_margin="@dimen/big_padding"
-        android:textSize="18sp" />
+        android:padding="@dimen/big_padding">
 
-    <Button
-        android:id="@+id/button_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="@string/button_save"
-        android:layout_margin="@dimen/big_padding"
-        android:textColor="@color/buttonLabel" />
+        <!-- Pole tekstowe na nazwę ćwiczenia -->
+        <EditText
+            android:id="@+id/edit_exercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_exercise"
+            android:inputType="text"
+            android:layout_marginBottom="@dimen/medium_padding"
+            android:textSize="18sp" />
 
-</LinearLayout>
+        <!-- Pole tekstowe na opis ćwiczenia -->
+        <EditText
+            android:id="@+id/edit_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_description"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:gravity="top|start"
+            android:layout_marginBottom="@dimen/medium_padding"
+            android:textSize="18sp" />
+
+        <!-- Spinner dla wyboru typu ćwiczenia -->
+        <Spinner
+            android:id="@+id/spinner_exercise_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium_padding"
+            android:spinnerMode="dropdown" />
+
+        <!-- Przycisk zapisu -->
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="@string/button_save"
+            android:textColor="@color/buttonLabel" />
+
+    </LinearLayout>
+</ScrollView>
+

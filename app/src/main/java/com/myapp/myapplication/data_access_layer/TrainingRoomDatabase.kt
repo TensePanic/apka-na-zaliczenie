@@ -14,7 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 // Annotates class to be a Room Database with a table (entity) of the Training class
-@Database(entities = arrayOf(Training::class, Exercise::class, TrainingExerciseJoin::class), version = 3, exportSchema = false)
+@Database(entities = arrayOf(Training::class, Exercise::class, TrainingExerciseJoin::class), version = 4, exportSchema = false)
 abstract class TrainingRoomDatabase : RoomDatabase() {
 
     abstract fun trainingDao(): TrainingDao
