@@ -7,19 +7,22 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.myapp.myapplication.data_access_layer.model.Exercise
 import com.myapp.myapplication.data_access_layer.model.Training
-import com.myapp.myapplication.data_access_layer.model.TrainingExerciseJoin
+import com.myapp.myapplication.data_access_layer.model.TrainingExerciseSet
 import com.myapp.myapplication.data_access_layer.dao.ExerciseDao
 import com.myapp.myapplication.data_access_layer.dao.TrainingDao
+import com.myapp.myapplication.data_access_layer.dao.TrainingExerciseSetDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 // Annotates class to be a Room Database with a table (entity) of the Training class
-@Database(entities = arrayOf(Training::class, Exercise::class, TrainingExerciseJoin::class), version = 4, exportSchema = false)
+@Database(entities = arrayOf(Training::class, Exercise::class, TrainingExerciseSet::class), version = 5, exportSchema = false)
 abstract class TrainingRoomDatabase : RoomDatabase() {
 
     abstract fun trainingDao(): TrainingDao
 
     abstract fun exerciseDao(): ExerciseDao
+
+    abstract fun trainingExerciseSetDao(): TrainingExerciseSetDao
 
     private class TrainingDatabaseCallback(
         private val scope: CoroutineScope
