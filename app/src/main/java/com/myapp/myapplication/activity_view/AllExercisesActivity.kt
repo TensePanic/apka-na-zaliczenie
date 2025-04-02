@@ -16,7 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.myapp.myapplication.ExerciseListAdapter
+import com.myapp.myapplication.AllExercisesListAdapter
 import com.myapp.myapplication.view_model.ExerciseViewModel
 import com.myapp.myapplication.view_model.ExerciseViewModelFactory
 import com.myapp.myapplication.R
@@ -58,7 +58,7 @@ class AllExercisesActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = ExerciseListAdapter(this@AllExercisesActivity)
+        val adapter = AllExercisesListAdapter(this@AllExercisesActivity)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 

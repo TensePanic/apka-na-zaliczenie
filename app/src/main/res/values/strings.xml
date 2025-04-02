@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">TrainFlow</string>
     <string name="add_training">Add training</string>
     <string name="hint_training">Insert new training name</string>
     <string name="hint_exercise">Insert new exercise name</string>

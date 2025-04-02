@@ -52,10 +52,10 @@ abstract class TrainingRoomDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     TrainingRoomDatabase::class.java,
-                    "word_database"
+                    "training_database"
                 )
                     .addCallback(TrainingDatabaseCallback(scope))
-                    .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration() //TODO: This is important. It means that if there's a database migration that Room can't handle automatically, it will delete the existing database and recreate it. This is fine for development, but you should implement proper migrations for production.
                     .build()
                 INSTANCE = instance
                 // return instance

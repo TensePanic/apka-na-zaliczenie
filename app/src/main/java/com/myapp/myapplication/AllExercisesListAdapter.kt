@@ -9,10 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.myapp.myapplication.activity_view.ExerciseDetailsActivity
 import com.myapp.myapplication.activity_view.TrainingDetailsActivity
 import com.myapp.myapplication.data_access_layer.model.Exercise
 
-class ExerciseListAdapter(private val context: Context): ListAdapter<Exercise, ExerciseListAdapter.ExerciseViewHolder>(ExerciseComparator()) {
+class AllExercisesListAdapter(private val context: Context): ListAdapter<Exercise, AllExercisesListAdapter.ExerciseViewHolder>(ExerciseComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
         return ExerciseViewHolder.create(parent)
@@ -23,9 +24,10 @@ class ExerciseListAdapter(private val context: Context): ListAdapter<Exercise, E
         holder.bind(current.exerciseName)
 
         holder.itemView.setOnClickListener {view ->
-            val intent = Intent(context, TrainingDetailsActivity::class.java)
+            val intent = Intent(context, ExerciseDetailsActivity::class.java)
             intent.putExtra("currentName", current.exerciseName)
-            intent.putExtra("currentId", current.id)
+            intent.putExtra("currentType", current.exerciseType)
+            intent.putExtra("currentDesc", current.exerciseDesc)
             context.startActivity(intent)
         }
     }

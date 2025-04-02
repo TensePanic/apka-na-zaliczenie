@@ -44,7 +44,7 @@ class AddExerciseActivity : AppCompatActivity() {
             val replyIntent = Intent()
 
             //Walidacja czy aby nazwa nie jest pusta
-            if (TextUtils.isEmpty(editExerciseView.text)) { //TODO: Rafał, zobacz bo tu chyba trzeba sprawdzic czy type tez nie jest null
+            if (TextUtils.isEmpty(editExerciseView.text)) { //TODO: tu chyba trzeba sprawdzic czy type tez nie jest null
                 setResult(Activity.RESULT_CANCELED, replyIntent)
             } else {
                 // Pobieranie danych z pól

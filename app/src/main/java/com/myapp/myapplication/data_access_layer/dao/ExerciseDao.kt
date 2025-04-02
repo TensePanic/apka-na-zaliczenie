@@ -19,7 +19,7 @@ interface ExerciseDao {
     @Query("DELETE FROM exercise_table")
     suspend fun deleteAll()
 
-    @Query("SELECT et.id, et.exercise_name, et.exercise_desc, et.exercise_type FROM training_exercise_join as tej" +
+    @Query("SELECT et.id, et.exercise_name, et.exercise_desc, et.exercise_type FROM training_exercise_set as tej" +
             " JOIN exercise_table AS et ON tej.exerciseId = et.id" +
             " WHERE tej.trainingId = :trainingId")
     fun getExercisesForTraining(trainingId :Int): Flow<List<Exercise>>
