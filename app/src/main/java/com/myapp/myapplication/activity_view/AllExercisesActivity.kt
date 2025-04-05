@@ -55,10 +55,12 @@ class AllExercisesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_exercises)
 
+        val source = intent.getStringExtra("source") ?: "default"
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = AllExercisesListAdapter(this@AllExercisesActivity)
+        val adapter = AllExercisesListAdapter(this@AllExercisesActivity, source)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 

@@ -1,5 +1,6 @@
 package com.myapp.myapplication.activity_view
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -9,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.myapp.myapplication.R
 import com.myapp.myapplication.TrainingExercisesListAdapter
 import com.myapp.myapplication.TrainingsApplication
@@ -35,6 +37,13 @@ class TrainingDetailsActivity : AppCompatActivity() {
         trainingExercisesListAdapter = TrainingExercisesListAdapter()
         recyclerView.adapter = trainingExercisesListAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
+        fab.setOnClickListener {
+            val intent = Intent(this@TrainingDetailsActivity, AllExercisesActivity::class.java)
+            intent.putExtra("source", "TrainingDetails")
+            startActivityForResult(intent, 1)
+        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

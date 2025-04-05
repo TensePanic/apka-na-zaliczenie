@@ -9,11 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.myapp.myapplication.activity_view.AddingSetActivity
 import com.myapp.myapplication.activity_view.ExerciseDetailsActivity
 import com.myapp.myapplication.activity_view.TrainingDetailsActivity
 import com.myapp.myapplication.data_access_layer.model.Exercise
 
-class AllExercisesListAdapter(private val context: Context): ListAdapter<Exercise, AllExercisesListAdapter.ExerciseViewHolder>(ExerciseComparator()) {
+class AllExercisesListAdapter(private val context: Context, private val source: String): ListAdapter<Exercise, AllExercisesListAdapter.ExerciseViewHolder>(ExerciseComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
         return ExerciseViewHolder.create(parent)
@@ -23,12 +24,22 @@ class AllExercisesListAdapter(private val context: Context): ListAdapter<Exercis
         val current = getItem(position)
         holder.bind(current.exerciseName)
 
-        holder.itemView.setOnClickListener {view ->
-            val intent = Intent(context, ExerciseDetailsActivity::class.java)
-            intent.putExtra("currentName", current.exerciseName)
-            intent.putExtra("currentType", current.exerciseType)
-            intent.putExtra("currentDesc", current.exerciseDesc)
-            context.startActivity(intent)
+        holder.itemView.setOnClickListener {
+            when(source){
+                "TrainingDetails" -> {val intent = Intent(context, AddingSetActivity::class.java)
+                    intent.putExtra("currentName", current.exerciseName)
+                    intent.putExtra("currentType", current.exerciseType)
+                    intent.putExtra("currentDesc", current.exerciseDesc)
+                    intent.putExtra("exerciseID", current.id)
+                    context.startActivity(intent)}
+                else -> {
+                    val intent = Intent(context, ExerciseDetailsActivity::class.java)
+                    intent.putExtra("currentName", current.exerciseName)
+                    intent.putExtra("currentType", current.exerciseType)
+                    intent.putExtra("currentDesc", current.exerciseDesc)
+                    context.startActivity(intent)
+                }
+            }
         }
     }
 
