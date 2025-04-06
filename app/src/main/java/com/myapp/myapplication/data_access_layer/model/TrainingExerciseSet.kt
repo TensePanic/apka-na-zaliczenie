@@ -15,5 +15,9 @@ import androidx.room.PrimaryKey
 data class TrainingExerciseSet(
     @PrimaryKey(autoGenerate = true) val id: Int = 0, // Unikalne ID dla każdego połączenia
     val trainingId: Int, // ID treningu
-    val exerciseId: Int  // ID ćwiczenia
+    val exerciseId: Int,  // ID ćwiczenia
+    val reps: Int? = null,
+    val weight: Int? = null,
+    val time: Int? = null,
+    val distance: Int? = null
 )

@@ -42,6 +42,7 @@ class TrainingDetailsActivity : AppCompatActivity() {
         fab.setOnClickListener {
             val intent = Intent(this@TrainingDetailsActivity, AllExercisesActivity::class.java)
             intent.putExtra("source", "TrainingDetails")
+            intent.putExtra("trainingId", trainingId)
             startActivityForResult(intent, 1)
         }
 

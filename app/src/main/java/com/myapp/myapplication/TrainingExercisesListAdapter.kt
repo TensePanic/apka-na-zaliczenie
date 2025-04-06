@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.myapp.myapplication.data_access_layer.model.Exercise
+import com.myapp.myapplication.data_access_layer.model.ExerciseSetDisplay
 
 class TrainingExercisesListAdapter :
-    ListAdapter<Exercise, TrainingExercisesListAdapter.TrainingExercisesViewHolder>(TrainingExercisesComparator()) {
+    ListAdapter<ExerciseSetDisplay, TrainingExercisesListAdapter.TrainingExercisesViewHolder>(TrainingExercisesComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingExercisesViewHolder {
         return TrainingExercisesViewHolder.create(parent)
@@ -18,16 +19,21 @@ class TrainingExercisesListAdapter :
 
     override fun onBindViewHolder(holder: TrainingExercisesViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.exerciseName, current.exerciseDesc)
+        holder.bind(current)
     }
 
     class TrainingExercisesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val exerciseNameTextView: TextView = itemView.findViewById(R.id.exerciseNameTextView)
-        private val exerciseDescTextView: TextView = itemView.findViewById(R.id.exerciseDescTextView)
+        private val exerciseDetailsTextView: TextView = itemView.findViewById(R.id.exerciseDetailsTextView)
 
-        fun bind(exerciseName: String?, exerciseDesc: String?) {
-            exerciseNameTextView.text = exerciseName
-            exerciseDescTextView.text = exerciseDesc
+        fun bind(item: ExerciseSetDisplay) {
+            exerciseNameTextView.text = item.exerciseName
+            exerciseDetailsTextView.text = buildString {
+                if (item.reps != null) append("Reps: ${item.reps}  ")
+                if (item.weight != null) append("Weight: ${item.weight}kg  ")
+                if (item.time != null) append("Time: ${item.time}s  ")
+                if (item.distance != null) append("Distance: ${item.distance}m")
+            }
         }
 
         companion object {
@@ -39,13 +45,13 @@ class TrainingExercisesListAdapter :
         }
     }
 
-    class TrainingExercisesComparator : DiffUtil.ItemCallback<Exercise>() {
-        override fun areItemsTheSame(oldItem: Exercise, newItem: Exercise): Boolean {
+    class TrainingExercisesComparator : DiffUtil.ItemCallback<ExerciseSetDisplay>() {
+        override fun areItemsTheSame(oldItem: ExerciseSetDisplay, newItem: ExerciseSetDisplay): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: Exercise, newItem: Exercise): Boolean {
-            return oldItem.exerciseName == newItem.exerciseName && oldItem.exerciseDesc == newItem.exerciseDesc
+        override fun areContentsTheSame(oldItem: ExerciseSetDisplay, newItem: ExerciseSetDisplay): Boolean {
+            return oldItem.exerciseName == newItem.exerciseName
         }
     }
 }

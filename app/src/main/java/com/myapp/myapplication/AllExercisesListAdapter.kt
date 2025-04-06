@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.myapp.myapplication.activity_view.AddingSetActivity
+import com.myapp.myapplication.activity_view.AllExercisesActivity
 import com.myapp.myapplication.activity_view.ExerciseDetailsActivity
 import com.myapp.myapplication.activity_view.TrainingDetailsActivity
 import com.myapp.myapplication.data_access_layer.model.Exercise
 
-class AllExercisesListAdapter(private val context: Context, private val source: String): ListAdapter<Exercise, AllExercisesListAdapter.ExerciseViewHolder>(ExerciseComparator()) {
+class AllExercisesListAdapter(private val context: Context, private val source: String, private val trainingId: Int = -1): ListAdapter<Exercise, AllExercisesListAdapter.ExerciseViewHolder>(ExerciseComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
         return ExerciseViewHolder.create(parent)
@@ -31,6 +32,7 @@ class AllExercisesListAdapter(private val context: Context, private val source: 
                     intent.putExtra("currentType", current.exerciseType)
                     intent.putExtra("currentDesc", current.exerciseDesc)
                     intent.putExtra("exerciseID", current.id)
+                    intent.putExtra("trainingId", trainingId)
                     context.startActivity(intent)}
                 else -> {
                     val intent = Intent(context, ExerciseDetailsActivity::class.java)

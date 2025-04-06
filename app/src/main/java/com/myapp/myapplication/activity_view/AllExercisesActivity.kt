@@ -56,20 +56,21 @@ class AllExercisesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_all_exercises)
 
         val source = intent.getStringExtra("source") ?: "default"
+        val trainingId = intent.getIntExtra("trainingId", -1)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = AllExercisesListAdapter(this@AllExercisesActivity, source)
+        val adapter = AllExercisesListAdapter(this@AllExercisesActivity, source, trainingId)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Add an observer on the LiveData returned by getTrainings.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        exerciseViewModel.allExercises.observe(this, Observer { words ->
-            // Update the cached copy of the words in the adapter.
-            words?.let { adapter.submitList(it) }
+        exerciseViewModel.allExercises.observe(this, Observer { exercises ->
+            // Update the cached copy of the exercises in the adapter.
+            exercises?.let { adapter.submitList(it) }
         })
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)

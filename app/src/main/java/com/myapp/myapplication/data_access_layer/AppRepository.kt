@@ -6,6 +6,8 @@ import com.myapp.myapplication.data_access_layer.dao.ExerciseDao
 import com.myapp.myapplication.data_access_layer.model.Training
 import com.myapp.myapplication.data_access_layer.dao.TrainingDao
 import com.myapp.myapplication.data_access_layer.dao.TrainingExerciseSetDao
+import com.myapp.myapplication.data_access_layer.model.ExerciseSetDisplay
+import com.myapp.myapplication.data_access_layer.model.TrainingExerciseSet
 import kotlinx.coroutines.flow.Flow
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
@@ -20,8 +22,8 @@ class AppRepository(private val trainingDao: TrainingDao,
     val allTrainings: Flow<List<Training>> = trainingDao.getTrainings()
     val allExercises: Flow<List<Exercise>> = exerciseDao.getExercise()
 
-    fun getExercisesForTraining(trainingId: Int): Flow<List<Exercise>> {
-        return trainingExerciseSetDao.getExercisesForTraining(trainingId)
+    fun getExercisesForTraining(trainingId: Int): Flow<List<ExerciseSetDisplay>> {
+        return trainingExerciseSetDao.getExerciseSetsForTraining(trainingId)
     }
 
     // By default Room runs suspend queries off the main thread, therefore, we don't need to
@@ -37,5 +39,11 @@ class AppRepository(private val trainingDao: TrainingDao,
     @WorkerThread
     suspend fun insertExercise(exercise: Exercise) {
         exerciseDao.insert(exercise)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertSet(trainingExerciseSet: TrainingExerciseSet) {
+        trainingExerciseSetDao.insert(trainingExerciseSet)
     }
 }

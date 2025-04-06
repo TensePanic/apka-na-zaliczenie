@@ -5,12 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.myapp.myapplication.data_access_layer.AppRepository
 import com.myapp.myapplication.data_access_layer.model.Exercise
+import com.myapp.myapplication.data_access_layer.model.ExerciseSetDisplay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class TrainingDetailsViewModel(private val repository: AppRepository) : ViewModel() {
 
-    fun getExercisesForTraining(trainingId: Int): Flow<List<Exercise>> {
+    fun getExercisesForTraining(trainingId: Int): Flow<List<ExerciseSetDisplay>> {
         return repository.getExercisesForTraining(trainingId)
     }
 }
