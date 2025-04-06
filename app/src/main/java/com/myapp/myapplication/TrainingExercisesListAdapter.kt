@@ -1,5 +1,7 @@
 package com.myapp.myapplication
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,10 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.myapp.myapplication.activity_view.AddingSetActivity
+import com.myapp.myapplication.activity_view.ExerciseDetailsActivity
 import com.myapp.myapplication.data_access_layer.model.Exercise
 import com.myapp.myapplication.data_access_layer.model.ExerciseSetDisplay
 
-class TrainingExercisesListAdapter :
+class TrainingExercisesListAdapter (private val context: Context) :
     ListAdapter<ExerciseSetDisplay, TrainingExercisesListAdapter.TrainingExercisesViewHolder>(TrainingExercisesComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingExercisesViewHolder {
@@ -20,6 +24,12 @@ class TrainingExercisesListAdapter :
     override fun onBindViewHolder(holder: TrainingExercisesViewHolder, position: Int) {
         val current = getItem(position)
         holder.bind(current)
+
+        holder.itemView.setOnClickListener {
+                val intent = Intent(context, AddingSetActivity::class.java)
+                    intent.putExtra("currentItemId", current.id)
+                    context.startActivity(intent)
+        }
     }
 
     class TrainingExercisesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

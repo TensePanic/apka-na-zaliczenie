@@ -13,6 +13,9 @@ interface ExerciseDao {
     @Query("SELECT * FROM exercise_table ORDER BY exercise_name ASC")
     fun getExercise(): Flow<List<Exercise>>
 
+    @Query("SELECT * FROM exercise_table where id = :id")
+    suspend fun getExerciseById(id: Int): Exercise
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(exercise: Exercise)
 

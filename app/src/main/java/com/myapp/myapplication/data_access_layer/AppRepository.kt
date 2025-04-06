@@ -26,6 +26,18 @@ class AppRepository(private val trainingDao: TrainingDao,
         return trainingExerciseSetDao.getExerciseSetsForTraining(trainingId)
     }
 
+    suspend fun getExerciseById(id: Int): Exercise {
+        return exerciseDao.getExerciseById(id)
+    }
+
+    suspend fun getExerciseSetById(id: Int): TrainingExerciseSet {
+        return trainingExerciseSetDao.getExerciseSetById(id)
+    }
+
+    suspend fun updateSet(trainingExerciseSet: TrainingExerciseSet) {
+        trainingExerciseSetDao.update(trainingExerciseSet)
+    }
+
     // By default Room runs suspend queries off the main thread, therefore, we don't need to
     // implement anything else to ensure we're not doing long running database work
     // off the main thread.
@@ -45,5 +57,11 @@ class AppRepository(private val trainingDao: TrainingDao,
     @WorkerThread
     suspend fun insertSet(trainingExerciseSet: TrainingExerciseSet) {
         trainingExerciseSetDao.insert(trainingExerciseSet)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteSetById(id: Int) {
+        trainingExerciseSetDao.deleteById(id)
     }
 }

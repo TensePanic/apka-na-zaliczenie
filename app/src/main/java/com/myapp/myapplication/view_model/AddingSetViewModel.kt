@@ -24,6 +24,109 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
     fun insert(trainingExerciseSet: TrainingExerciseSet) = viewModelScope.launch {
         repository.insertSet(trainingExerciseSet)
     }
+
+    suspend fun getExerciseById(id: Int): Exercise {
+        return repository.getExerciseById(id)
+    }
+
+    suspend fun getExerciseSetById(id: Int): TrainingExerciseSet {
+        return repository.getExerciseSetById(id)
+    }
+
+    fun updateSet(trainingExerciseSet: TrainingExerciseSet) = viewModelScope.launch {
+        repository.updateSet(trainingExerciseSet)
+    }
+
+    fun buildSet(
+        exerciseType: String?,
+        exerciseID: Int,
+        trainingId: Int,
+        mainValue: Int?
+    ): TrainingExerciseSet? {
+        when (exerciseType) {
+            "Without weights" -> {
+                return TrainingExerciseSet(
+                    exerciseId = exerciseID,
+                    trainingId = trainingId,
+                    reps = mainValue
+                )
+            }
+
+            "With weights" -> {
+                return TrainingExerciseSet(
+                    exerciseId = exerciseID,
+                    trainingId = trainingId,
+                    reps = mainValue,
+                    weight = 0
+                )
+            }
+
+            "Time" -> {
+                return TrainingExerciseSet(
+                    exerciseId = exerciseID,
+                    trainingId = trainingId,
+                    time = mainValue
+                )
+            }
+
+            "Distance" -> {
+                return TrainingExerciseSet(
+                    exerciseId = exerciseID,
+                    trainingId = trainingId,
+                    distance = mainValue
+                )
+            }
+
+            else -> return null
+        }
+    }
+
+    fun updateSetValue(
+        set: TrainingExerciseSet,
+        exerciseType: String?,
+        mainValue: Int?
+    ): TrainingExerciseSet? {
+        when (exerciseType) {
+            "Without weights" -> {
+                return TrainingExerciseSet(
+                    id = set.id,
+                    exerciseId = set.exerciseId,
+                    trainingId = set.trainingId,
+                    reps = mainValue
+                )
+            }
+
+            "With weights" -> {
+                return TrainingExerciseSet(
+                    id = set.id,
+                    exerciseId = set.exerciseId,
+                    trainingId = set.trainingId,
+                    reps = mainValue,
+                    weight = 0
+                )
+            }
+
+            "Time" -> {
+                return TrainingExerciseSet(
+                    id = set.id,
+                    exerciseId = set.exerciseId,
+                    trainingId = set.trainingId,
+                    time = mainValue
+                )
+            }
+
+            "Distance" -> {
+                return TrainingExerciseSet(
+                    id = set.id,
+                    exerciseId = set.exerciseId,
+                    trainingId = set.trainingId,
+                    distance = mainValue
+                )
+            }
+
+            else -> return null
+        }
+    }
 }
 
 class AddingSetViewModelFactory(private val repository: AppRepository) : ViewModelProvider.Factory {

@@ -3,44 +3,65 @@ package com.myapp.myapplication.activity_view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.myapp.myapplication.R
 import com.myapp.myapplication.TrainingsApplication
 import com.myapp.myapplication.data_access_layer.model.TrainingExerciseSet
 import com.myapp.myapplication.view_model.AddingSetViewModel
 import com.myapp.myapplication.view_model.AddingSetViewModelFactory
+import kotlinx.coroutines.launch
 
 class AddingSetActivity : AppCompatActivity() {
     private val addingSetViewModel: AddingSetViewModel by viewModels {
         AddingSetViewModelFactory((application as TrainingsApplication).repository)
     }
+    private var exerciseSet : TrainingExerciseSet? = null
+    private var exerciseType: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_adding_set) // ← Twój layout XML_new) // ← Twój layout XML
-
-        // Get the exercise details from the intent
-        val exerciseName = intent.getStringExtra("currentName")
-        val exerciseType = intent.getStringExtra("currentType")
-        val exerciseDesc = intent.getStringExtra("currentDesc")
-        val exerciseID = intent.getIntExtra("exerciseID", -1)
-        val trainingId = intent.getIntExtra("trainingId", -1)
 
         // Set the text in the TextViews
         val nameTextView: TextView = findViewById(R.id.exerciseNameText)
         val typeTextView: TextView = findViewById(R.id.repsSuffix)
         val descTextView: TextView = findViewById(R.id.exerciseDescText)
-
-        nameTextView.text = exerciseName
-        typeTextView.text = typeStringMatch(exerciseType)
-        descTextView.text = exerciseDesc
-
         val repsInput: EditText = findViewById(R.id.repsInput)
         val saveButton: Button = findViewById(R.id.saveButton)
+        // Get the exercise details from the intent
+        val setId = intent.getIntExtra("currentItemId", -1)
+
+        if (setId != -1) {
+            lifecycleScope.launch {
+                exerciseSet = addingSetViewModel.getExerciseSetById(setId)
+                val exercise = addingSetViewModel.getExerciseById(exerciseSet!!.exerciseId)
+                exerciseType = exercise.exerciseType
+
+                nameTextView.text = exercise.exerciseName
+                typeTextView.text = typeStringMatch(exercise.exerciseType)
+                descTextView.text = exercise.exerciseDesc
+                repsInput.text = setReps(exerciseSet, exercise.exerciseType)
+            }
+        }
+        else{
+            exerciseType = intent.getStringExtra("currentType")
+            val exerciseName = intent.getStringExtra("currentName")
+            val exerciseDesc = intent.getStringExtra("currentDesc")
+            val exerciseID = intent.getIntExtra("exerciseID", -1)
+            val trainingId = intent.getIntExtra("trainingId", -1)
+
+            exerciseSet = addingSetViewModel.buildSet(exerciseType, exerciseID, trainingId, 0)
+
+            nameTextView.text = exerciseName
+            typeTextView.text = typeStringMatch(exerciseType)
+            descTextView.text = exerciseDesc
+        }
 
         saveButton.setOnClickListener {
             val mainValueText = repsInput.text.toString()
@@ -56,18 +77,15 @@ class AddingSetActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val newSet = buildSet(exerciseType, exerciseID, trainingId, mainVal)
-            // Tu tworzysz obiekt nowej serii
-            /*val newSet = TrainingExerciseSet(
-                exerciseId = exerciseID,
-                trainingId = trainingId,
-                reps = reps
-            )*/
+            exerciseSet = addingSetViewModel.updateSetValue(exerciseSet!!, exerciseType, mainVal)
 
             // Dodajesz do bazy
-            if (newSet != null) {
+            if (exerciseSet != null) {
             Thread {
-                addingSetViewModel.insert(newSet)
+                if (setId != -1)
+                    addingSetViewModel.updateSet(exerciseSet!!)
+                else
+                    addingSetViewModel.insert(exerciseSet!!)
 
                 runOnUiThread {
                     Toast.makeText(this, "Dodano serię!", Toast.LENGTH_SHORT).show()
@@ -85,47 +103,13 @@ class AddingSetActivity : AppCompatActivity() {
 
     }
 
-    private fun buildSet(
-        exerciseType: String?,
-        exerciseID: Int,
-        trainingId: Int,
-        mainValue: Int?
-    ): TrainingExerciseSet? {
-        when (exerciseType) {
-            "Without weights" -> {
-                return TrainingExerciseSet(
-                    exerciseId = exerciseID,
-                    trainingId = trainingId,
-                    reps = mainValue
-                )
-            }
-
-            "With weights" -> {
-                return TrainingExerciseSet(
-                    exerciseId = exerciseID,
-                    trainingId = trainingId,
-                    reps = mainValue,
-                    weight = 0
-                )
-            }
-
-            "Time" -> {
-                return TrainingExerciseSet(
-                    exerciseId = exerciseID,
-                    trainingId = trainingId,
-                    time = mainValue
-                )
-            }
-
-            "Distance" -> {
-                return TrainingExerciseSet(
-                    exerciseId = exerciseID,
-                    trainingId = trainingId,
-                    distance = mainValue
-                )
-            }
-
-            else -> return null
+    private fun setReps(set: TrainingExerciseSet?, type: String): Editable? {
+        return when (type) {
+            "Without weights" -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
+            "With weights" -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
+            "Time" -> Editable.Factory.getInstance().newEditable(set?.time.toString())
+            "Distance" -> Editable.Factory.getInstance().newEditable(set?.distance.toString())
+            else -> Editable.Factory.getInstance().newEditable("błąd")
         }
     }
 

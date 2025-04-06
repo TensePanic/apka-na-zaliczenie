@@ -14,6 +14,10 @@ class TrainingDetailsViewModel(private val repository: AppRepository) : ViewMode
     fun getExercisesForTraining(trainingId: Int): Flow<List<ExerciseSetDisplay>> {
         return repository.getExercisesForTraining(trainingId)
     }
+
+    fun deleteExerciseSetById(id: Int) = viewModelScope.launch{
+        repository.deleteSetById(id)
+    }
 }
 
 class TrainingDetailsViewModelFactory(private val repository: AppRepository) : ViewModelProvider.Factory {

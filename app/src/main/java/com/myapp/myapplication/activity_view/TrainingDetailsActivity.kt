@@ -3,11 +3,13 @@ package com.myapp.myapplication.activity_view
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -34,9 +36,34 @@ class TrainingDetailsActivity : AppCompatActivity() {
 
         // Set up the RecyclerView
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        trainingExercisesListAdapter = TrainingExercisesListAdapter()
+        trainingExercisesListAdapter = TrainingExercisesListAdapter(this@TrainingDetailsActivity)
         recyclerView.adapter = trainingExercisesListAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false // Nie obsługujemy przeciągania góra/dół
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val item = trainingExercisesListAdapter.currentList[position]
+
+                // Tu wywołujesz funkcję usuwającą element (np. w ViewModelu)
+                trainingDetailsViewModel.deleteExerciseSetById(item.id)
+
+                // Opcjonalnie możesz dać feedback
+                Toast.makeText(applicationContext, "Usunięto: ${item.exerciseName}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Podpinamy helper do RecyclerView
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
@@ -58,5 +85,6 @@ class TrainingDetailsActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 }
