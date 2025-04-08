@@ -8,4 +8,5 @@
     <string name="empty_not_saved">Item not saved because it is empty.</string>
     <string name="button_home">Home</string>
     <string name="button_exercises">Exercises</string>
+    <string name="complete_set">Zakończ serię</string>"
 </resources>

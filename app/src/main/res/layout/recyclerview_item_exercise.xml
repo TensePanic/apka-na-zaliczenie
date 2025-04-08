@@ -15,7 +15,8 @@
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/tickButton"
+        app:layout_constraintHorizontal_bias="0" />
 
     <!-- Szczegóły ćwiczenia (reps, weight, time, distance) -->
     <TextView
@@ -27,6 +28,20 @@
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@id/exerciseNameTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/tickButton" />
+
+    <!-- Tick button -->
+    <ImageButton
+        android:id="@+id/tickButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:visibility="gone"
+        android:contentDescription="@string/complete_set"
+        android:src="@drawable/baseline_check_24"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/green" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
