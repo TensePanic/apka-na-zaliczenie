@@ -1,8 +1,10 @@
 package com.myapp.myapplication
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,21 +33,52 @@ class TrainingExercisesListAdapter (private val context: Context, var tickClickL
         return TrainingExercisesViewHolder.create(parent)
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(holder: TrainingExercisesViewHolder, position: Int) {
         val current = getItem(position)
         holder.bind(current, position == currentExerciseIndex, tickClickListener)
 
         holder.itemView.setOnClickListener {
-                val intent = Intent(context, AddingSetActivity::class.java)
+                if(currentExerciseIndex == -1){
+                    val intent = Intent(context, AddingSetActivity::class.java)
                     intent.putExtra("currentItemId", current.id)
                     context.startActivity(intent)
+                }
+        }
+
+        if (current.time != null && position == currentExerciseIndex) {
+            holder.tickButton.visibility = View.GONE
+            holder.timerTextView.visibility = View.VISIBLE
+
+            val totalMillis = current.time * 1000L
+            val countDownTimer = object : CountDownTimer(totalMillis, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    val seconds = millisUntilFinished / 1000
+                    val minutes = seconds / 60
+                    val secs = seconds % 60
+                    holder.timerTextView.text = String.format("%02d:%02d", minutes, secs)
+                }
+
+                override fun onFinish() {
+                    holder.timerTextView.visibility = View.GONE
+                    holder.tickButton.visibility = View.VISIBLE
+                }
+            }
+            countDownTimer.start()
+        } else if (position == currentExerciseIndex) {
+            holder.tickButton.visibility = View.VISIBLE
+            holder.timerTextView.visibility = View.GONE
+        } else {
+            holder.tickButton.visibility = View.GONE
+            holder.timerTextView.visibility = View.GONE
         }
     }
 
     class TrainingExercisesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val exerciseNameTextView: TextView = itemView.findViewById(R.id.exerciseNameTextView)
         private val exerciseDetailsTextView: TextView = itemView.findViewById(R.id.exerciseDetailsTextView)
-        private val tickButton: ImageButton = itemView.findViewById(R.id.tickButton)
+        val tickButton: ImageButton = itemView.findViewById(R.id.tickButton)
+        val timerTextView: TextView = itemView.findViewById(R.id.timerTextView)
 
         fun bind(item: ExerciseSetDisplay, isCurrent: Boolean, tickClickListener: (Int) -> Unit) {
             exerciseNameTextView.text = item.exerciseName
@@ -59,11 +92,11 @@ class TrainingExercisesListAdapter (private val context: Context, var tickClickL
                     if (isCurrent) Color.parseColor("#DFF0D8") else Color.TRANSPARENT
                 )
 
-                tickButton.visibility = if (isCurrent) View.VISIBLE else View.GONE
-
                 tickButton.setOnClickListener {
                     tickClickListener.invoke(adapterPosition)
                 }
+                timerTextView.setOnClickListener{
+                    tickClickListener.invoke(adapterPosition)}
             }
         }
 

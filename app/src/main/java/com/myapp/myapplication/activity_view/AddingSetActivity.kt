@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -26,7 +27,7 @@ class AddingSetActivity : AppCompatActivity() {
     private var exerciseType: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_adding_set) // ← Twój layout XML_new) // ← Twój layout XML
+        setContentView(R.layout.activity_adding_set) // ← Twój layout XML
 
         // Set the text in the TextViews
         val nameTextView: TextView = findViewById(R.id.exerciseNameText)
@@ -34,6 +35,10 @@ class AddingSetActivity : AppCompatActivity() {
         val descTextView: TextView = findViewById(R.id.exerciseDescText)
         val repsInput: EditText = findViewById(R.id.repsInput)
         val saveButton: Button = findViewById(R.id.saveButton)
+        val weightLabel = findViewById<TextView>(R.id.weightLabel)
+        val weightInput = findViewById<EditText>(R.id.weightInput)
+        val weightSuffix = findViewById<TextView>(R.id.weightSuffix)
+
         // Get the exercise details from the intent
         val setId = intent.getIntExtra("currentItemId", -1)
 
@@ -47,6 +52,17 @@ class AddingSetActivity : AppCompatActivity() {
                 typeTextView.text = typeStringMatch(exercise.exerciseType)
                 descTextView.text = exercise.exerciseDesc
                 repsInput.text = setReps(exerciseSet, exercise.exerciseType)
+                weightInput.text = Editable.Factory.getInstance().newEditable(exerciseSet?.weight.toString())
+
+                if (exerciseType == "With weights") {
+                    weightLabel.visibility = View.VISIBLE
+                    weightInput.visibility = View.VISIBLE
+                    weightSuffix.visibility = View.VISIBLE
+                } else {
+                    weightLabel.visibility = View.GONE
+                    weightInput.visibility = View.GONE
+                    weightSuffix.visibility = View.GONE
+                }
             }
         }
         else{
@@ -56,18 +72,34 @@ class AddingSetActivity : AppCompatActivity() {
             val exerciseID = intent.getIntExtra("exerciseID", -1)
             val trainingId = intent.getIntExtra("trainingId", -1)
 
-            exerciseSet = addingSetViewModel.buildSet(exerciseType, exerciseID, trainingId, 0)
+            exerciseSet = addingSetViewModel.buildSet(exerciseType, exerciseID, trainingId, 0, 0)
 
             nameTextView.text = exerciseName
             typeTextView.text = typeStringMatch(exerciseType)
             descTextView.text = exerciseDesc
+
+            if (exerciseType == "With weights") {
+                weightLabel.visibility = View.VISIBLE
+                weightInput.visibility = View.VISIBLE
+                weightSuffix.visibility = View.VISIBLE
+            } else {
+                weightLabel.visibility = View.GONE
+                weightInput.visibility = View.GONE
+                weightSuffix.visibility = View.GONE
+            }
         }
 
         saveButton.setOnClickListener {
             val mainValueText = repsInput.text.toString()
+            val weightValueText = weightInput.text.toString()
 
             if (mainValueText.isBlank()) {
                 Toast.makeText(this, "Podaj liczbę powtórzeń!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if ((exerciseType == "With weights") && weightValueText.isBlank()) {
+                Toast.makeText(this, "Podaj obciążenie!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -77,7 +109,13 @@ class AddingSetActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            exerciseSet = addingSetViewModel.updateSetValue(exerciseSet!!, exerciseType, mainVal)
+            val weightVal = weightValueText.toIntOrNull()
+            if ((exerciseType == "With weights") && (weightVal == null || weightVal <= 0)) {
+                Toast.makeText(this, "Niepoprawna liczba!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            exerciseSet = addingSetViewModel.updateSetValue(exerciseSet!!, exerciseType, mainVal, weightVal)
 
             // Dodajesz do bazy
             if (exerciseSet != null) {

@@ -41,7 +41,8 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
         exerciseType: String?,
         exerciseID: Int,
         trainingId: Int,
-        mainValue: Int?
+        mainValue: Int?,
+        weight: Int?
     ): TrainingExerciseSet? {
         when (exerciseType) {
             "Without weights" -> {
@@ -57,7 +58,7 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                     exerciseId = exerciseID,
                     trainingId = trainingId,
                     reps = mainValue,
-                    weight = 0
+                    weight = weight
                 )
             }
 
@@ -84,7 +85,8 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
     fun updateSetValue(
         set: TrainingExerciseSet,
         exerciseType: String?,
-        mainValue: Int?
+        mainValue: Int?,
+        weight: Int?
     ): TrainingExerciseSet? {
         when (exerciseType) {
             "Without weights" -> {
@@ -102,7 +104,7 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                     exerciseId = set.exerciseId,
                     trainingId = set.trainingId,
                     reps = mainValue,
-                    weight = 0
+                    weight = weight
                 )
             }
 
