@@ -62,29 +62,17 @@
         app:layout_constraintBaseline_toBaselineOf="@id/repsLabel"
         app:layout_constraintStart_toEndOf="@id/repsInput" />
 
-    <TextView
-        android:id="@+id/weightLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Obciążenie:"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/repsInput" />
-
     <EditText
         android:id="@+id/weightInput"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:hint="0"
         android:inputType="number"
         android:textAlignment="center"
-        android:visibility="gone"
-        app:layout_constraintBaseline_toBaselineOf="@id/weightLabel"
-        app:layout_constraintStart_toEndOf="@id/weightLabel" />
+        android:visibility="visible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/repsSuffix"
+        app:layout_constraintStart_toEndOf="@+id/repsSuffix"
+        tools:layout_editor_absoluteX="263dp" />
 
     <TextView
         android:id="@+id/weightSuffix"
@@ -93,21 +81,22 @@
         android:layout_marginStart="8dp"
         android:text="kg"
         android:textSize="16sp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBaseline_toBaselineOf="@id/weightInput"
         app:layout_constraintStart_toEndOf="@id/weightInput" />
 
     <!-- Przycisk zapisu -->
 
     <!-- Opis ćwiczenia -->
+
     <Button
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:text="Zapisz"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weightLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/repsLabel" />
 
     <TextView
         android:id="@+id/exerciseDescLabel"

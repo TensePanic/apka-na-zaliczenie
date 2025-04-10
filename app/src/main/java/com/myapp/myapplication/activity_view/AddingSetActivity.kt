@@ -31,11 +31,10 @@ class AddingSetActivity : AppCompatActivity() {
 
         // Set the text in the TextViews
         val nameTextView: TextView = findViewById(R.id.exerciseNameText)
-        val typeTextView: TextView = findViewById(R.id.repsSuffix)
+        val repsSuffix: TextView = findViewById(R.id.repsSuffix)
         val descTextView: TextView = findViewById(R.id.exerciseDescText)
         val repsInput: EditText = findViewById(R.id.repsInput)
         val saveButton: Button = findViewById(R.id.saveButton)
-        val weightLabel = findViewById<TextView>(R.id.weightLabel)
         val weightInput = findViewById<EditText>(R.id.weightInput)
         val weightSuffix = findViewById<TextView>(R.id.weightSuffix)
 
@@ -49,19 +48,24 @@ class AddingSetActivity : AppCompatActivity() {
                 exerciseType = exercise.exerciseType
 
                 nameTextView.text = exercise.exerciseName
-                typeTextView.text = typeStringMatch(exercise.exerciseType)
+                repsSuffix.text = typeMainValueSuffix(exercise.exerciseType)
+                weightSuffix.text = typeSecondValueSuffix(exercise.exerciseType)
                 descTextView.text = exercise.exerciseDesc
                 repsInput.text = setReps(exerciseSet, exercise.exerciseType)
-                weightInput.text = Editable.Factory.getInstance().newEditable(exerciseSet?.weight.toString())
+                weightInput.text = setWeight(exerciseSet, exercise.exerciseType)
 
-                if (exerciseType == "With weights") {
-                    weightLabel.visibility = View.VISIBLE
+                if (exerciseType == "With weights"
+                    || exerciseType == "Time"
+                    || exerciseType == "Distance")  {
                     weightInput.visibility = View.VISIBLE
                     weightSuffix.visibility = View.VISIBLE
                 } else {
-                    weightLabel.visibility = View.GONE
                     weightInput.visibility = View.GONE
                     weightSuffix.visibility = View.GONE
+                }
+
+                if (exerciseType == "Time") {
+
                 }
             }
         }
@@ -75,15 +79,16 @@ class AddingSetActivity : AppCompatActivity() {
             exerciseSet = addingSetViewModel.buildSet(exerciseType, exerciseID, trainingId, 0, 0)
 
             nameTextView.text = exerciseName
-            typeTextView.text = typeStringMatch(exerciseType)
+            repsSuffix.text = typeMainValueSuffix(exerciseType)
+            weightSuffix.text = typeSecondValueSuffix(exerciseType)
             descTextView.text = exerciseDesc
 
-            if (exerciseType == "With weights") {
-                weightLabel.visibility = View.VISIBLE
+            if (exerciseType == "With weights"
+                || exerciseType == "Time"
+                || exerciseType == "Distance") {
                 weightInput.visibility = View.VISIBLE
                 weightSuffix.visibility = View.VISIBLE
             } else {
-                weightLabel.visibility = View.GONE
                 weightInput.visibility = View.GONE
                 weightSuffix.visibility = View.GONE
             }
@@ -145,19 +150,37 @@ class AddingSetActivity : AppCompatActivity() {
         return when (type) {
             "Without weights" -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
             "With weights" -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
-            "Time" -> Editable.Factory.getInstance().newEditable(set?.time.toString())
-            "Distance" -> Editable.Factory.getInstance().newEditable(set?.distance.toString())
+            "Time" -> Editable.Factory.getInstance().newEditable((set?.time?.div(60)).toString())
+            "Distance" -> Editable.Factory.getInstance().newEditable((set?.distance?.div(1000)).toString())
             else -> Editable.Factory.getInstance().newEditable("błąd")
         }
     }
 
-    private fun typeStringMatch(name: String?): String {
+    private fun setWeight(set: TrainingExerciseSet?, type: String): Editable? {
+        return when (type) {
+            "Without weights" -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
+            "With weights" -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
+            "Time" -> Editable.Factory.getInstance().newEditable((set?.time?.rem(60)).toString())
+            "Distance" -> Editable.Factory.getInstance().newEditable((set?.distance?.rem(1000)).toString())
+            else -> Editable.Factory.getInstance().newEditable("błąd")
+        }
+    }
+
+    private fun typeMainValueSuffix(name: String?): String {
         return when (name) {
             "Without weights" -> "powtórzeń"
             "With weights" -> "powtórzeń"
-            "Time" -> "sekund(y)"
-            "Distance" -> "m"
+            "Time" -> "min"
+            "Distance" -> "km"
             else -> "błąd"
+        }
+    }
+    private fun typeSecondValueSuffix(name: String?): String {
+        return when (name) {
+            "With weights" -> "kg"
+            "Time" -> "s"
+            "Distance" -> "m"
+            else -> ""
         }
     }
 }

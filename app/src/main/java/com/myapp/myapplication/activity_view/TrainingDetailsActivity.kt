@@ -27,7 +27,7 @@ class TrainingDetailsActivity : AppCompatActivity() {
         TrainingDetailsViewModelFactory((application as TrainingsApplication).repository)
     }
     private lateinit var trainingExercisesListAdapter: TrainingExercisesListAdapter
-    var currentExerciseIndex = 0
+    var currentExerciseIndex = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +66,19 @@ class TrainingDetailsActivity : AppCompatActivity() {
 
                 val itemTouchHelperCallback =
                     object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                        override fun getMovementFlags(
+                            recyclerView: RecyclerView,
+                            viewHolder: RecyclerView.ViewHolder
+                        ): Int {
+                            return if (currentExerciseIndex == -1) {
+                                // Pozwól przesuwać tylko, jeśli trening nie jest aktywny
+                                makeMovementFlags(0, ItemTouchHelper.LEFT)
+                            } else {
+                                // Zablokuj swipe całkowicie
+                                makeMovementFlags(0, 0)
+                            }
+                        }
+
                         override fun onMove(
                             recyclerView: RecyclerView,
                             viewHolder: RecyclerView.ViewHolder,
@@ -75,21 +88,21 @@ class TrainingDetailsActivity : AppCompatActivity() {
                         }
 
                         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                            val position = viewHolder.adapterPosition
-                            val item = trainingExercisesListAdapter.currentList[position]
+                            if (currentExerciseIndex == -1) {
+                                val position = viewHolder.adapterPosition
+                                val item = trainingExercisesListAdapter.currentList[position]
 
-                            // Tu wywołujesz funkcję usuwającą element (np. w ViewModelu)
-                            trainingDetailsViewModel.deleteExerciseSetById(item.id)
+                                // Tu wywołujesz funkcję usuwającą element (np. w ViewModelu)
+                                trainingDetailsViewModel.deleteExerciseSetById(item.id)
 
-                            // Opcjonalnie możesz dać feedback
-                            Toast.makeText(
-                                applicationContext,
-                                "Usunięto: ${item.exerciseName}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                // Opcjonalnie możesz dać feedback
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Usunięto: ${item.exerciseName}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
-
-
                     }
 
                 // Podpinamy helper do RecyclerView
@@ -98,11 +111,13 @@ class TrainingDetailsActivity : AppCompatActivity() {
 
                 val fab = findViewById<FloatingActionButton>(R.id.fab)
                 fab.setOnClickListener {
-                    val intent =
+                    if (currentExerciseIndex == -1) {
+                        val intent =
                         Intent(this@TrainingDetailsActivity, AllExercisesActivity::class.java)
-                    intent.putExtra("source", "TrainingDetails")
-                    intent.putExtra("trainingId", trainingId)
-                    startActivityForResult(intent, 1)
+                        intent.putExtra("source", "TrainingDetails")
+                        intent.putExtra("trainingId", trainingId)
+                        startActivityForResult(intent, 1)
+                    }
                 }
 
                 lifecycleScope.launch {

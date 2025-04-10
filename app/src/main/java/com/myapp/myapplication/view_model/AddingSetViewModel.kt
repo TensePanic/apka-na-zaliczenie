@@ -113,7 +113,7 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                     id = set.id,
                     exerciseId = set.exerciseId,
                     trainingId = set.trainingId,
-                    time = mainValue
+                    time = mainValue!! * 60 + weight!!
                 )
             }
 
@@ -122,7 +122,7 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                     id = set.id,
                     exerciseId = set.exerciseId,
                     trainingId = set.trainingId,
-                    distance = mainValue
+                    distance = mainValue!! * 1000 + weight!!
                 )
             }
 
