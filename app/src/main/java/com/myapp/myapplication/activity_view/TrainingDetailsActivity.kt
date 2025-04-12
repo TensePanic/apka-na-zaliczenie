@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.myapp.myapplication.R
 import com.myapp.myapplication.TrainingExercisesListAdapter
 import com.myapp.myapplication.TrainingsApplication
+import com.myapp.myapplication.data_access_layer.model.ExerciseSetDisplay
 import com.myapp.myapplication.view_model.TrainingDetailsViewModel
 import com.myapp.myapplication.view_model.TrainingDetailsViewModelFactory
 import kotlinx.coroutines.launch
@@ -40,17 +41,8 @@ class TrainingDetailsActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
 
         trainingExercisesListAdapter =
-            TrainingExercisesListAdapter(this@TrainingDetailsActivity){ index ->
-                if (index == currentExerciseIndex) {
-                    currentExerciseIndex++
-                    if (currentExerciseIndex < trainingExercisesListAdapter.itemCount) {
-                        trainingExercisesListAdapter.setCurrentExercise(currentExerciseIndex)
-                    } else {
-                        Toast.makeText(this, "Trening zakończony!", Toast.LENGTH_LONG).show()
-                        currentExerciseIndex = -1
-                        trainingExercisesListAdapter.setCurrentExercise(currentExerciseIndex)
-                    }
-                }
+            TrainingExercisesListAdapter(this@TrainingDetailsActivity){ index, item ->
+                onClickAction(index, item)
             }
                 recyclerView.adapter = trainingExercisesListAdapter
                 recyclerView.layoutManager = LinearLayoutManager(this)
@@ -135,5 +127,37 @@ class TrainingDetailsActivity : AppCompatActivity() {
                 }
 
             }
+    private fun onClickAction(index: Int, item: ExerciseSetDisplay){
+        if(item.exerciseType == "Time")
+            showSkipConfirmationDialog(index)
+        else
+            endSet(index)
+    }
+    private fun showSkipConfirmationDialog(index: Int) {
+        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+        builder.setTitle("Pomiń ćwiczenie?")
+        builder.setMessage("Czy na pewno chcesz pominąć to ćwiczenie?")
+        builder.setPositiveButton("Tak") { dialog, _ ->
+            endSet(index)
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("Nie") { dialog, _ ->
+            // Nie rób nic, kontynuuj odliczanie
+            dialog.dismiss()
+        }
+        builder.show()
+    }
 
+    private fun endSet(index: Int) {
+        if (index == currentExerciseIndex) {
+            currentExerciseIndex++
+            if (currentExerciseIndex < trainingExercisesListAdapter.itemCount) {
+                trainingExercisesListAdapter.setCurrentExercise(currentExerciseIndex)
+            } else {
+                Toast.makeText(this, "Trening zakończony!", Toast.LENGTH_LONG).show()
+                currentExerciseIndex = -1
+                trainingExercisesListAdapter.setCurrentExercise(currentExerciseIndex)
+            }
+        }
+    }
 }

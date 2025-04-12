@@ -18,7 +18,7 @@ import com.myapp.myapplication.activity_view.ExerciseDetailsActivity
 import com.myapp.myapplication.data_access_layer.model.Exercise
 import com.myapp.myapplication.data_access_layer.model.ExerciseSetDisplay
 
-class TrainingExercisesListAdapter (private val context: Context, var tickClickListener: (Int) -> Unit) :
+class TrainingExercisesListAdapter (private val context: Context, private var tickClickListener: (Int, ExerciseSetDisplay) -> Unit) :
     ListAdapter<ExerciseSetDisplay, TrainingExercisesListAdapter.TrainingExercisesViewHolder>(TrainingExercisesComparator()) {
 
     private var currentExerciseIndex: Int = -1
@@ -80,7 +80,7 @@ class TrainingExercisesListAdapter (private val context: Context, var tickClickL
         val tickButton: ImageButton = itemView.findViewById(R.id.tickButton)
         val timerTextView: TextView = itemView.findViewById(R.id.timerTextView)
 
-        fun bind(item: ExerciseSetDisplay, isCurrent: Boolean, tickClickListener: (Int) -> Unit) {
+        fun bind(item: ExerciseSetDisplay, isCurrent: Boolean, tickClickListener: (Int, ExerciseSetDisplay) -> Unit) {
             exerciseNameTextView.text = item.exerciseName
             exerciseDetailsTextView.text = buildString {
                 if (item.reps != null) append("Reps: ${item.reps}  ")
@@ -93,10 +93,10 @@ class TrainingExercisesListAdapter (private val context: Context, var tickClickL
                 )
 
                 tickButton.setOnClickListener {
-                    tickClickListener.invoke(adapterPosition)
+                    tickClickListener.invoke(adapterPosition, item)
                 }
                 timerTextView.setOnClickListener{
-                    tickClickListener.invoke(adapterPosition)}
+                    tickClickListener.invoke(adapterPosition, item)}
             }
         }
 
