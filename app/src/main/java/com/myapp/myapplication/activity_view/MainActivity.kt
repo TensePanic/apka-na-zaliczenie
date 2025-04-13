@@ -88,6 +88,12 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent,1)
         }
 
+        val weightButton = findViewById<Button>(R.id.weight_button)
+        weightButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, WeightActivity::class.java)
+            startActivityForResult(intent,1)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {

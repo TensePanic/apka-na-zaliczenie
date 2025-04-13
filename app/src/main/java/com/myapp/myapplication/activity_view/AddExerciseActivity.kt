@@ -67,6 +67,5 @@ class AddExerciseActivity : AppCompatActivity() {
         const val EXTRA_NAME = "com.myapp.myapplication.EXTRA_NAME"
         const val EXTRA_DESCRIPTION = "com.myapp.myapplication.EXTRA_DESCRIPTION"
         const val EXTRA_TYPE = "com.myapp.myapplication.EXTRA_TYPE"
-
     }
 }

@@ -20,11 +20,13 @@ import com.myapp.myapplication.view_model.AddingSetViewModelFactory
 import kotlinx.coroutines.launch
 
 class AddingSetActivity : AppCompatActivity() {
+
     private val addingSetViewModel: AddingSetViewModel by viewModels {
         AddingSetViewModelFactory((application as TrainingsApplication).repository)
     }
     private var exerciseSet : TrainingExerciseSet? = null
     private var exerciseType: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_adding_set) // ← Twój layout XML

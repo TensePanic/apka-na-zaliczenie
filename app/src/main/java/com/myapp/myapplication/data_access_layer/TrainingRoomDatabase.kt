@@ -11,11 +11,13 @@ import com.myapp.myapplication.data_access_layer.model.TrainingExerciseSet
 import com.myapp.myapplication.data_access_layer.dao.ExerciseDao
 import com.myapp.myapplication.data_access_layer.dao.TrainingDao
 import com.myapp.myapplication.data_access_layer.dao.TrainingExerciseSetDao
+import com.myapp.myapplication.data_access_layer.dao.WeightEntryDao
+import com.myapp.myapplication.data_access_layer.model.WeightEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 // Annotates class to be a Room Database with a table (entity) of the Training class
-@Database(entities = arrayOf(Training::class, Exercise::class, TrainingExerciseSet::class), version = 6, exportSchema = false)
+@Database(entities = arrayOf(Training::class, Exercise::class, TrainingExerciseSet::class, WeightEntry::class), version = 7, exportSchema = false)
 abstract class TrainingRoomDatabase : RoomDatabase() {
 
     abstract fun trainingDao(): TrainingDao
@@ -23,6 +25,8 @@ abstract class TrainingRoomDatabase : RoomDatabase() {
     abstract fun exerciseDao(): ExerciseDao
 
     abstract fun trainingExerciseSetDao(): TrainingExerciseSetDao
+
+    abstract fun weightEntryDao(): WeightEntryDao
 
     private class TrainingDatabaseCallback(
         private val scope: CoroutineScope

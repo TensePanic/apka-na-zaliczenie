@@ -32,6 +32,12 @@
             android:name=".activity_view.AddingSetActivity"
             android:exported="false" />
         <activity
+            android:name=".activity_view.WeightActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity_view.AddWeightEntryActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity_view.MainActivity"
             android:exported="true">
             <intent-filter>

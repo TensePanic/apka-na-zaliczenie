@@ -78,5 +78,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:text="@string/button_exercises" />
+        <Button
+            android:id="@+id/weight_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/button_weight" />
     </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -6,7 +6,10 @@
     <string name="hint_description">Insert description for your exercise</string>
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Item not saved because it is empty.</string>
+    <string name="invalid_not_saved">Niepoprawna wartość.</string>
     <string name="button_home">Home</string>
     <string name="button_exercises">Exercises</string>
-    <string name="complete_set">Zakończ serię</string>"
+    <string name="button_weight">Weight</string>
+    <string name="complete_set">Zakończ serię</string>
+    <string name="welcome_weight">Tutaj zobaczysz wykres zmian Twojej wagi</string>"
 </resources>
