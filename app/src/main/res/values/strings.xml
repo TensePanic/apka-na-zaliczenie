@@ -1,15 +1,25 @@
 <resources>
     <string name="app_name">TrainFlow</string>
-    <string name="add_training">Add training</string>
-    <string name="hint_training">Insert new training name</string>
-    <string name="hint_exercise">Insert new exercise name</string>
-    <string name="hint_description">Insert description for your exercise</string>
-    <string name="button_save">Save</string>
-    <string name="empty_not_saved">Item not saved because it is empty.</string>
+    <string name="add_training">Dodaj trening</string>
+    <string name="hint_training">Podaj nazwę nowego treningu</string>
+    <string name="hint_exercise">Podaj nazwę nowego ćwiczenia</string>
+    <string name="hint_description">Podaj instrukcje dla swojego ćwiczenia</string>
+    <string name="button_save">Zapisz</string>
+    <string name="empty_not_saved">Element nie został zapisany, ponieważ jest pusty.</string>
     <string name="invalid_not_saved">Niepoprawna wartość.</string>
-    <string name="button_home">Home</string>
-    <string name="button_exercises">Exercises</string>
-    <string name="button_weight">Weight</string>
+    <string name="button_home">Treningi</string>
+    <string name="button_exercises">Ćwiczenia</string>
+    <string name="button_weight">Waga</string>
     <string name="complete_set">Zakończ serię</string>
-    <string name="welcome_weight">Tutaj zobaczysz wykres zmian Twojej wagi</string>"
+    <string name="welcome_weight">Tutaj zobaczysz wykres zmian Twojej wagi</string>
+    <string name="weight_input_title">Nowy wpis</string>
+    <string name="weight_input_hint">Wpisz obecną wagę:</string>
+    <string name="weight_hint">0.0</string>
+    <string name="weight_unit">kg</string>
+    <string name="exercise_name">Nazwa ćwiczenia</string>
+    <string name="exercise_property_prefix">Wybierz ilość:</string>
+    <string name="zero">0</string>
+    <string name="lorem_ipsum">Lorem ipsum</string>
+    <string name="exercise_desc_label">Opis ćwiczenia:</string>
+    <string name="reps_suffix">powtórzeń</string>
 </resources>
