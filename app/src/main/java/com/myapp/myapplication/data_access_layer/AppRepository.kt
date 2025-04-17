@@ -42,6 +42,14 @@ class AppRepository(private val trainingDao: TrainingDao,
         return trainingExerciseSetDao.getExerciseSetById(id)
     }
 
+    suspend fun updateExercise(exercise: Exercise) {
+        exerciseDao.update(exercise)
+    }
+
+    suspend fun softDeleteExercise(id: Int) {
+        exerciseDao.softDelete(id)
+    }
+
     suspend fun updateSet(trainingExerciseSet: TrainingExerciseSet) {
         trainingExerciseSetDao.update(trainingExerciseSet)
     }

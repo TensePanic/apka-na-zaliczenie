@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -51,6 +52,10 @@ class AllExercisesActivity : AppCompatActivity() {
         }
     }
 
+    public fun startActivityForResult(intent: Intent){
+        startActivityForResult(intent, addExerciseActivityRequestCode)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_exercises)
@@ -72,6 +77,43 @@ class AllExercisesActivity : AppCompatActivity() {
             // Update the cached copy of the exercises in the adapter.
             exercises?.let { adapter.submitList(it) }
         })
+
+        val itemTouchHelperCallback =
+            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun getMovementFlags(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ): Int {
+                    return makeMovementFlags(0, ItemTouchHelper.LEFT)
+                }
+
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false // Nie obsługujemy przeciągania góra/dół
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        val position = viewHolder.adapterPosition
+                        val item = adapter.currentList[position]
+
+                        // Tu wywołujesz funkcję usuwającą element (np. w ViewModelu)
+                        exerciseViewModel.delete(item.id)
+
+                        // Opcjonalnie możesz dać feedback
+                        Toast.makeText(
+                            applicationContext,
+                            "Usunięto: ${item.exerciseName}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                }
+            }
+
+        // Podpinamy helper do RecyclerView
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
@@ -107,11 +149,18 @@ class AllExercisesActivity : AppCompatActivity() {
                 val name = data.getStringExtra(AddExerciseActivity.EXTRA_NAME)
                 val description = data.getStringExtra(AddExerciseActivity.EXTRA_DESCRIPTION)
                 val type = data.getStringExtra(AddExerciseActivity.EXTRA_TYPE)
+                val id = data.getIntExtra(AddExerciseActivity.EXTRA_ID, -1)
 
                 if (!name.isNullOrEmpty() && !type.isNullOrEmpty()) {
                     // Tworzymy obiekt Exercise i zapisujemy go w bazie danych
-                    val exercise = Exercise(0, name, description, type)
-                    exerciseViewModel.insert(exercise)
+                    if(id == -1) {
+                        val exercise = Exercise(0, name, description, type)
+                        exerciseViewModel.insert(exercise)
+                    }
+                    else{
+                        val exercise = Exercise(id, name, description, type)
+                        exerciseViewModel.update(exercise)
+                    }
                 }
             }
         } else {

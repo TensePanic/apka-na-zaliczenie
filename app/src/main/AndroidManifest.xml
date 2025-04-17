@@ -26,7 +26,7 @@
             android:name=".activity_view.TrainingDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".activity_view.ExerciseDetailsActivity"
+            android:name=".activity_view.EditExerciseActivity"
             android:exported="false" />
         <activity
             android:name=".activity_view.AddingSetActivity"

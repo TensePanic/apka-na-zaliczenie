@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.myapp.myapplication.R
 import com.myapp.myapplication.TrainingsApplication
 import com.myapp.myapplication.data_access_layer.model.TrainingExerciseSet
+import com.myapp.myapplication.infrastructure.ExerciseType
 import com.myapp.myapplication.view_model.AddingSetViewModel
 import com.myapp.myapplication.view_model.AddingSetViewModelFactory
 import kotlinx.coroutines.launch
@@ -56,18 +57,14 @@ class AddingSetActivity : AppCompatActivity() {
                 repsInput.text = setReps(exerciseSet, exercise.exerciseType)
                 weightInput.text = setWeight(exerciseSet, exercise.exerciseType)
 
-                if (exerciseType == "With weights"
-                    || exerciseType == "Time"
-                    || exerciseType == "Distance")  {
+                if (exerciseType == ExerciseType.WITH_WEIGHTS.displayName
+                    || exerciseType == ExerciseType.TIME.displayName
+                    || exerciseType == ExerciseType.DISTANCE.displayName)  {
                     weightInput.visibility = View.VISIBLE
                     weightSuffix.visibility = View.VISIBLE
                 } else {
                     weightInput.visibility = View.GONE
                     weightSuffix.visibility = View.GONE
-                }
-
-                if (exerciseType == "Time") {
-
                 }
             }
         }
@@ -85,9 +82,9 @@ class AddingSetActivity : AppCompatActivity() {
             weightSuffix.text = typeSecondValueSuffix(exerciseType)
             descTextView.text = exerciseDesc
 
-            if (exerciseType == "With weights"
-                || exerciseType == "Time"
-                || exerciseType == "Distance") {
+            if (exerciseType == ExerciseType.WITH_WEIGHTS.displayName
+                || exerciseType == ExerciseType.TIME.displayName
+                || exerciseType == ExerciseType.DISTANCE.displayName) {
                 weightInput.visibility = View.VISIBLE
                 weightSuffix.visibility = View.VISIBLE
             } else {
@@ -105,7 +102,7 @@ class AddingSetActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if ((exerciseType == "With weights") && weightValueText.isBlank()) {
+            if ((exerciseType == ExerciseType.WITH_WEIGHTS.displayName) && weightValueText.isBlank()) {
                 Toast.makeText(this, "Podaj obciążenie!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -117,7 +114,7 @@ class AddingSetActivity : AppCompatActivity() {
             }
 
             val weightVal = weightValueText.toIntOrNull()
-            if ((exerciseType == "With weights") && (weightVal == null || weightVal <= 0)) {
+            if ((exerciseType == ExerciseType.WITH_WEIGHTS.displayName) && (weightVal == null || weightVal <= 0)) {
                 Toast.makeText(this, "Niepoprawna liczba!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -150,38 +147,38 @@ class AddingSetActivity : AppCompatActivity() {
 
     private fun setReps(set: TrainingExerciseSet?, type: String): Editable? {
         return when (type) {
-            "Without weights" -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
-            "With weights" -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
-            "Time" -> Editable.Factory.getInstance().newEditable((set?.time?.div(60)).toString())
-            "Distance" -> Editable.Factory.getInstance().newEditable((set?.distance?.div(1000)).toString())
+            ExerciseType.WITHOUT_WEIGHTS.displayName -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
+            ExerciseType.WITH_WEIGHTS.displayName -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
+            ExerciseType.TIME.displayName -> Editable.Factory.getInstance().newEditable((set?.time?.div(60)).toString())
+            ExerciseType.DISTANCE.displayName -> Editable.Factory.getInstance().newEditable((set?.distance?.div(1000)).toString())
             else -> Editable.Factory.getInstance().newEditable("błąd")
         }
     }
 
     private fun setWeight(set: TrainingExerciseSet?, type: String): Editable? {
         return when (type) {
-            "Without weights" -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
-            "With weights" -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
-            "Time" -> Editable.Factory.getInstance().newEditable((set?.time?.rem(60)).toString())
-            "Distance" -> Editable.Factory.getInstance().newEditable((set?.distance?.rem(1000)).toString())
+            ExerciseType.WITHOUT_WEIGHTS.displayName -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
+            ExerciseType.WITH_WEIGHTS.displayName -> Editable.Factory.getInstance().newEditable(set?.reps.toString())
+            ExerciseType.TIME.displayName -> Editable.Factory.getInstance().newEditable((set?.time?.rem(60)).toString())
+            ExerciseType.DISTANCE.displayName -> Editable.Factory.getInstance().newEditable((set?.distance?.rem(1000)).toString())
             else -> Editable.Factory.getInstance().newEditable("błąd")
         }
     }
 
     private fun typeMainValueSuffix(name: String?): String {
         return when (name) {
-            "Without weights" -> "powtórzeń"
-            "With weights" -> "powtórzeń"
-            "Time" -> "min"
-            "Distance" -> "km"
+            ExerciseType.WITHOUT_WEIGHTS.displayName -> "powtórzeń"
+            ExerciseType.WITH_WEIGHTS.displayName -> "powtórzeń"
+            ExerciseType.TIME.displayName -> "min"
+            ExerciseType.DISTANCE.displayName -> "km"
             else -> "błąd"
         }
     }
     private fun typeSecondValueSuffix(name: String?): String {
         return when (name) {
-            "With weights" -> "kg"
-            "Time" -> "s"
-            "Distance" -> "m"
+            ExerciseType.WITH_WEIGHTS.displayName -> "kg"
+            ExerciseType.TIME.displayName -> "s"
+            ExerciseType.DISTANCE.displayName -> "m"
             else -> ""
         }
     }

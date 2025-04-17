@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.myapp.myapplication.data_access_layer.AppRepository
 import com.myapp.myapplication.data_access_layer.model.Exercise
 import com.myapp.myapplication.data_access_layer.model.TrainingExerciseSet
+import com.myapp.myapplication.infrastructure.ExerciseType
 import kotlinx.coroutines.launch
 
 class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
@@ -45,7 +46,7 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
         weight: Int?
     ): TrainingExerciseSet? {
         when (exerciseType) {
-            "Without weights" -> {
+            ExerciseType.WITHOUT_WEIGHTS.displayName -> {
                 return TrainingExerciseSet(
                     exerciseId = exerciseID,
                     trainingId = trainingId,
@@ -53,7 +54,7 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                 )
             }
 
-            "With weights" -> {
+            ExerciseType.WITH_WEIGHTS.displayName -> {
                 return TrainingExerciseSet(
                     exerciseId = exerciseID,
                     trainingId = trainingId,
@@ -62,7 +63,7 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                 )
             }
 
-            "Time" -> {
+            ExerciseType.TIME.displayName -> {
                 return TrainingExerciseSet(
                     exerciseId = exerciseID,
                     trainingId = trainingId,
@@ -70,7 +71,7 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                 )
             }
 
-            "Distance" -> {
+            ExerciseType.DISTANCE.displayName -> {
                 return TrainingExerciseSet(
                     exerciseId = exerciseID,
                     trainingId = trainingId,
@@ -89,7 +90,7 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
         weight: Int?
     ): TrainingExerciseSet? {
         when (exerciseType) {
-            "Without weights" -> {
+            ExerciseType.WITHOUT_WEIGHTS.displayName -> {
                 return TrainingExerciseSet(
                     id = set.id,
                     exerciseId = set.exerciseId,
@@ -98,7 +99,7 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                 )
             }
 
-            "With weights" -> {
+            ExerciseType.WITH_WEIGHTS.displayName -> {
                 return TrainingExerciseSet(
                     id = set.id,
                     exerciseId = set.exerciseId,
@@ -108,7 +109,7 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                 )
             }
 
-            "Time" -> {
+            ExerciseType.TIME.displayName -> {
                 return TrainingExerciseSet(
                     id = set.id,
                     exerciseId = set.exerciseId,
@@ -117,7 +118,7 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                 )
             }
 
-            "Distance" -> {
+            ExerciseType.DISTANCE.displayName -> {
                 return TrainingExerciseSet(
                     id = set.id,
                     exerciseId = set.exerciseId,

@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.myapp.myapplication.activity_view.AddingSetActivity
-import com.myapp.myapplication.activity_view.ExerciseDetailsActivity
-import com.myapp.myapplication.data_access_layer.model.Exercise
 import com.myapp.myapplication.data_access_layer.model.ExerciseSetDisplay
 
 class TrainingExercisesListAdapter (private val context: Context, private var tickClickListener: (Int, ExerciseSetDisplay) -> Unit) :
@@ -83,10 +81,10 @@ class TrainingExercisesListAdapter (private val context: Context, private var ti
         fun bind(item: ExerciseSetDisplay, isCurrent: Boolean, tickClickListener: (Int, ExerciseSetDisplay) -> Unit) {
             exerciseNameTextView.text = item.exerciseName
             exerciseDetailsTextView.text = buildString {
-                if (item.reps != null) append("Reps: ${item.reps}  ")
-                if (item.weight != null) append("Weight: ${item.weight}kg  ")
-                if (item.time != null) append("Time: ${item.time}s  ")
-                if (item.distance != null) append("Distance: ${item.distance}m")
+                if (item.reps != null) append("Powtórzenia: ${item.reps}  ")
+                if (item.weight != null) append("Ciężar: ${item.weight}kg  ")
+                if (item.time != null) append("Czas: ${item.time}s  ")
+                if (item.distance != null) append("Dystans: ${item.distance}m")
 
                 itemView.setBackgroundColor(
                     if (isCurrent) Color.parseColor("#DFF0D8") else Color.TRANSPARENT

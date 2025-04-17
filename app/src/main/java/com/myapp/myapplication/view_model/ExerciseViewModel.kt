@@ -23,6 +23,14 @@ class ExerciseViewModel(private val repository: AppRepository) : ViewModel() {
     fun insert(exercise: Exercise) = viewModelScope.launch {
         repository.insertExercise(exercise)
     }
+
+    fun delete(id: Int) = viewModelScope.launch {
+        repository.softDeleteExercise(id)
+    }
+
+    fun update(exercise: Exercise) = viewModelScope.launch {
+        repository.updateExercise(exercise)
+    }
 }
 
 class ExerciseViewModelFactory(private val repository: AppRepository) : ViewModelProvider.Factory {

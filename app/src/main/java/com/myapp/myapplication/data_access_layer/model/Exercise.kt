@@ -1,6 +1,7 @@
 package com.myapp.myapplication.data_access_layer.model
 
 import androidx.room.ColumnInfo
+import androidx.room.Delete
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,4 +9,5 @@ import androidx.room.PrimaryKey
 class Exercise(@PrimaryKey(autoGenerate = true) val id: Int,
                @ColumnInfo(name = "exercise_name") val exerciseName: String,
                @ColumnInfo(name = "exercise_desc") val exerciseDesc: String?,
-               @ColumnInfo(name = "exercise_type") val exerciseType: String)
+               @ColumnInfo(name = "exercise_type") val exerciseType: String,
+               @ColumnInfo(name = "exercise_is_deleted") val isDeleted: Boolean = false)

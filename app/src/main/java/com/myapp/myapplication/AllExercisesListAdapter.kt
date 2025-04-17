@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.myapp.myapplication.activity_view.AddingSetActivity
 import com.myapp.myapplication.activity_view.AllExercisesActivity
-import com.myapp.myapplication.activity_view.ExerciseDetailsActivity
-import com.myapp.myapplication.activity_view.TrainingDetailsActivity
+import com.myapp.myapplication.activity_view.EditExerciseActivity
 import com.myapp.myapplication.data_access_layer.model.Exercise
 
 class AllExercisesListAdapter(private val context: Context, private val source: String, private val trainingId: Int = -1): ListAdapter<Exercise, AllExercisesListAdapter.ExerciseViewHolder>(ExerciseComparator()) {
@@ -35,11 +34,18 @@ class AllExercisesListAdapter(private val context: Context, private val source: 
                     intent.putExtra("trainingId", trainingId)
                     context.startActivity(intent)}
                 else -> {
-                    val intent = Intent(context, ExerciseDetailsActivity::class.java)
+                    val intent = Intent(context, EditExerciseActivity::class.java)
                     intent.putExtra("currentName", current.exerciseName)
                     intent.putExtra("currentType", current.exerciseType)
                     intent.putExtra("currentDesc", current.exerciseDesc)
-                    context.startActivity(intent)
+                    intent.putExtra("currentId", current.id)
+                    val allExercisesContext = context as? AllExercisesActivity
+                    if (allExercisesContext != null) {
+                        allExercisesContext.startActivityForResult(intent)
+                    }
+                    else {
+                        context.startActivity(intent)
+                    }
                 }
             }
         }
