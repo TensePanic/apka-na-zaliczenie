@@ -6,4 +6,5 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "training_table")
 class Training(@PrimaryKey(autoGenerate = true) val id: Int,
-               @ColumnInfo(name = "training_name") val trainingName: String)
+               @ColumnInfo(name = "training_name") val trainingName: String,
+               @ColumnInfo(name = "training_is_deleted") val isDeleted: Boolean = false)

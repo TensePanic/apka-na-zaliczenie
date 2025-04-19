@@ -27,6 +27,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -160,7 +161,42 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, WeightActivity::class.java)
             startActivityForResult(intent,1)
         }
+        val itemTouchHelperCallback =
+            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun getMovementFlags(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ): Int {
+                    return makeMovementFlags(0, ItemTouchHelper.LEFT)
+                }
 
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false // Nie obsługujemy przeciągania góra/dół
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.adapterPosition
+                    val item = adapter.currentList[position]
+
+                    // Tu wywołujesz funkcję usuwającą element (np. w ViewModelu)
+                    trainingViewModel.delete(item.id)
+
+                    // Opcjonalnie możesz dać feedback
+                    Toast.makeText(
+                        applicationContext,
+                        "Usunięto: ${item.trainingName}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+        // Podpinamy helper do RecyclerView
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {

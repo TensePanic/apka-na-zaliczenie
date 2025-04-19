@@ -23,6 +23,10 @@ class TrainingViewModel(private val repository: AppRepository) : ViewModel() {
     fun insert(training: Training) = viewModelScope.launch {
         repository.insertTraining(training)
     }
+
+    fun delete(id : Int) = viewModelScope.launch {
+        repository.softDeleteTraining(id)
+    }
 }
 
 class TrainingViewModelFactory(private val repository: AppRepository) : ViewModelProvider.Factory {
