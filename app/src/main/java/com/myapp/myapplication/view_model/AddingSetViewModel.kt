@@ -42,15 +42,17 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
         exerciseType: String?,
         exerciseID: Int,
         trainingId: Int,
+        orderNumber : Int,
         mainValue: Int?,
-        weight: Int?
+        weight: Int
     ): TrainingExerciseSet? {
         when (exerciseType) {
             ExerciseType.WITHOUT_WEIGHTS.displayName -> {
                 return TrainingExerciseSet(
                     exerciseId = exerciseID,
                     trainingId = trainingId,
-                    reps = mainValue
+                    reps = mainValue,
+                    setOrderNumber = orderNumber
                 )
             }
 
@@ -59,7 +61,8 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                     exerciseId = exerciseID,
                     trainingId = trainingId,
                     reps = mainValue,
-                    weight = weight
+                    weight = weight,
+                    setOrderNumber = orderNumber
                 )
             }
 
@@ -67,7 +70,8 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                 return TrainingExerciseSet(
                     exerciseId = exerciseID,
                     trainingId = trainingId,
-                    time = mainValue
+                    time = mainValue,
+                    setOrderNumber = orderNumber
                 )
             }
 
@@ -75,7 +79,8 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                 return TrainingExerciseSet(
                     exerciseId = exerciseID,
                     trainingId = trainingId,
-                    distance = mainValue
+                    distance = mainValue,
+                    setOrderNumber = orderNumber
                 )
             }
 
@@ -95,7 +100,8 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                     id = set.id,
                     exerciseId = set.exerciseId,
                     trainingId = set.trainingId,
-                    reps = mainValue
+                    reps = mainValue,
+                    setOrderNumber = set.setOrderNumber
                 )
             }
 
@@ -105,7 +111,8 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                     exerciseId = set.exerciseId,
                     trainingId = set.trainingId,
                     reps = mainValue,
-                    weight = weight
+                    weight = weight,
+                    setOrderNumber = set.setOrderNumber
                 )
             }
 
@@ -114,7 +121,8 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                     id = set.id,
                     exerciseId = set.exerciseId,
                     trainingId = set.trainingId,
-                    time = mainValue!! * 60 + weight!!
+                    time = mainValue!! * 60 + weight!!,
+                    setOrderNumber = set.setOrderNumber
                 )
             }
 
@@ -123,7 +131,8 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
                     id = set.id,
                     exerciseId = set.exerciseId,
                     trainingId = set.trainingId,
-                    distance = mainValue!! * 1000 + weight!!
+                    distance = mainValue!! * 1000 + weight!!,
+                    setOrderNumber = set.setOrderNumber
                 )
             }
 

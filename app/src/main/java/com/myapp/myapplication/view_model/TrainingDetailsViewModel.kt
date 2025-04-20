@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.myapp.myapplication.data_access_layer.AppRepository
 import com.myapp.myapplication.data_access_layer.model.Exercise
 import com.myapp.myapplication.data_access_layer.model.ExerciseSetDisplay
+import com.myapp.myapplication.data_access_layer.model.TrainingExerciseSet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -17,6 +18,10 @@ class TrainingDetailsViewModel(private val repository: AppRepository) : ViewMode
 
     fun deleteExerciseSetById(id: Int) = viewModelScope.launch{
         repository.deleteSetById(id)
+    }
+
+    fun updateSetPosition(id: Int, position: Int) = viewModelScope.launch{
+        repository.updateSetPosition(id, position)
     }
 }
 

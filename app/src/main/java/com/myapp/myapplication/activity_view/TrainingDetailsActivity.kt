@@ -21,13 +21,19 @@ import com.myapp.myapplication.data_access_layer.model.ExerciseSetDisplay
 import com.myapp.myapplication.infrastructure.ExerciseType
 import com.myapp.myapplication.view_model.TrainingDetailsViewModel
 import com.myapp.myapplication.view_model.TrainingDetailsViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import java.util.Collections
 
 class TrainingDetailsActivity : AppCompatActivity() {
 
     private val trainingDetailsViewModel: TrainingDetailsViewModel by viewModels {
         TrainingDetailsViewModelFactory((application as TrainingsApplication).repository)
     }
+    var pendingSwapList: List<ExerciseSetDisplay>? = null // lista do zapisania później
     private lateinit var trainingExercisesListAdapter: TrainingExercisesListAdapter
     var currentExerciseIndex = -1
 
@@ -58,14 +64,17 @@ class TrainingDetailsActivity : AppCompatActivity() {
                 }
 
                 val itemTouchHelperCallback =
-                    object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                    object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP
+                            or ItemTouchHelper.DOWN,
+                        ItemTouchHelper.LEFT) {
                         override fun getMovementFlags(
                             recyclerView: RecyclerView,
                             viewHolder: RecyclerView.ViewHolder
                         ): Int {
                             return if (currentExerciseIndex == -1) {
                                 // Pozwól przesuwać tylko, jeśli trening nie jest aktywny
-                                makeMovementFlags(0, ItemTouchHelper.LEFT)
+                                makeMovementFlags(ItemTouchHelper.UP
+                                        or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT)
                             } else {
                                 // Zablokuj swipe całkowicie
                                 makeMovementFlags(0, 0)
@@ -77,7 +86,18 @@ class TrainingDetailsActivity : AppCompatActivity() {
                             viewHolder: RecyclerView.ViewHolder,
                             target: RecyclerView.ViewHolder
                         ): Boolean {
-                            return false // Nie obsługujemy przeciągania góra/dół
+                            val fromPosition = viewHolder.adapterPosition
+                            val toPosition = target.adapterPosition
+                            if (fromPosition == RecyclerView.NO_POSITION || toPosition == RecyclerView.NO_POSITION) {
+                                return false
+                            }
+
+                            val mutableList = trainingExercisesListAdapter.currentList.toMutableList()
+                            Collections.swap(mutableList, fromPosition, toPosition)
+
+                            trainingExercisesListAdapter.submitList(mutableList)
+                            pendingSwapList = mutableList
+                            return true
                         }
 
                         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -96,6 +116,21 @@ class TrainingDetailsActivity : AppCompatActivity() {
                                 ).show()
                             }
                         }
+                        override fun clearView(
+                            recyclerView: RecyclerView,
+                            viewHolder: RecyclerView.ViewHolder
+                        ) {
+                            super.clearView(recyclerView, viewHolder)
+
+                            pendingSwapList?.let { finalList ->
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    finalList.forEachIndexed { index, item ->
+                                        trainingDetailsViewModel.updateSetPosition(item.id, index)
+                                    }
+                                }
+                                pendingSwapList = null
+                            }
+                        }
                     }
 
                 // Podpinamy helper do RecyclerView
@@ -107,8 +142,11 @@ class TrainingDetailsActivity : AppCompatActivity() {
                     if (currentExerciseIndex == -1) {
                         val intent =
                         Intent(this@TrainingDetailsActivity, AllExercisesActivity::class.java)
+                        val nextOrderNum = ((trainingExercisesListAdapter.currentList.maxByOrNull  { it.setOrderNumber })
+                            ?.setOrderNumber ?: 0) + 1
                         intent.putExtra("source", "TrainingDetails")
                         intent.putExtra("trainingId", trainingId)
+                        intent.putExtra("nextOrderNum", nextOrderNum)
                         startActivityForResult(intent, 1)
                     }
                 }

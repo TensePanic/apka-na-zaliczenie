@@ -25,10 +25,14 @@ interface TrainingExerciseSetDao {
     @Update
     suspend fun update(trainingExerciseSet: TrainingExerciseSet)
 
+    @Query("UPDATE training_exercise_set SET setOrderNumber = :position WHERE id = :id")
+    suspend fun updatePosition(id: Int, position: Int)
+
     @Query("""
     SELECT training_exercise_set.id AS id,
            exercise_table.exercise_name AS exerciseName,
            exercise_table.exercise_type AS exerciseType,
+           training_exercise_set.setOrderNumber as setOrderNumber,
            training_exercise_set.reps AS reps,
            training_exercise_set.weight AS weight,
            training_exercise_set.time AS time,
@@ -36,6 +40,7 @@ interface TrainingExerciseSetDao {
     FROM training_exercise_set
     INNER JOIN exercise_table ON training_exercise_set.exerciseId = exercise_table.id
     WHERE training_exercise_set.trainingId = :trainingId
+    ORDER BY setOrderNumber ASC
 """)
     fun getExerciseSetsForTraining(trainingId: Int): Flow<List<ExerciseSetDisplay>>
 

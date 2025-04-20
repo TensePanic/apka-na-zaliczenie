@@ -25,7 +25,6 @@ import com.myapp.myapplication.TrainingsApplication
 import com.myapp.myapplication.data_access_layer.model.Exercise
 
 class AllExercisesActivity : AppCompatActivity() {
-
     private val addExerciseActivityRequestCode = 1
     private val exerciseViewModel: ExerciseViewModel by viewModels {
         ExerciseViewModelFactory((application as TrainingsApplication).repository)
@@ -62,11 +61,16 @@ class AllExercisesActivity : AppCompatActivity() {
 
         val source = intent.getStringExtra("source") ?: "default"
         val trainingId = intent.getIntExtra("trainingId", -1)
+        val exerciseNextOrderNum = intent.getIntExtra("nextOrderNum", 1)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = AllExercisesListAdapter(this@AllExercisesActivity, source, trainingId)
+        val adapter = AllExercisesListAdapter(this@AllExercisesActivity,
+            source,
+            trainingId,
+            exerciseNextOrderNum)
+        
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 

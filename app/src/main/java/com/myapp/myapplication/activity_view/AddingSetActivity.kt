@@ -27,6 +27,7 @@ class AddingSetActivity : AppCompatActivity() {
     }
     private var exerciseSet : TrainingExerciseSet? = null
     private var exerciseType: String? = null
+    private var exerciseNextOrderNum: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +44,7 @@ class AddingSetActivity : AppCompatActivity() {
 
         // Get the exercise details from the intent
         val setId = intent.getIntExtra("currentItemId", -1)
+        exerciseNextOrderNum = intent.getIntExtra("nextOrderNum", 0)
 
         if (setId != -1) {
             lifecycleScope.launch {
@@ -75,7 +77,12 @@ class AddingSetActivity : AppCompatActivity() {
             val exerciseID = intent.getIntExtra("exerciseID", -1)
             val trainingId = intent.getIntExtra("trainingId", -1)
 
-            exerciseSet = addingSetViewModel.buildSet(exerciseType, exerciseID, trainingId, 0, 0)
+            exerciseSet = addingSetViewModel.buildSet(exerciseType,
+                exerciseID,
+                trainingId,
+                exerciseNextOrderNum,
+                0,
+                0)
 
             nameTextView.text = exerciseName
             repsSuffix.text = typeMainValueSuffix(exerciseType)
