@@ -6,6 +6,6 @@
     <color name="colorPrimary">#43cbff</color>
     <color name="colorSecondary">#00755C</color>
     <color name="colorAccent">#F4F8FB</color>
-    <color name="colorPrimaryDark">#F4F8FB</color>
+    <color name="colorPrimaryDark">#0087BD</color>
     <color name="buttonLabel">#FFFFFF</color>
 </resources>
