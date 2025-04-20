@@ -21,7 +21,13 @@ class TrainingExercisesListAdapter (private val context: Context, private var ti
     ListAdapter<ExerciseSetDisplay, TrainingExercisesListAdapter.TrainingExercisesViewHolder>(TrainingExercisesComparator()) {
 
     private var currentExerciseIndex: Int = -1
+    private var endTime = 0L
+    private var countDownTimer: CountDownTimer? = null
     fun setCurrentExercise(index: Int) {
+        endTime = 0L
+        if(countDownTimer != null){
+            countDownTimer?.cancel()
+        }
         val previousIndex = currentExerciseIndex
         currentExerciseIndex = index
         notifyItemChanged(previousIndex)
@@ -29,6 +35,10 @@ class TrainingExercisesListAdapter (private val context: Context, private var ti
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingExercisesViewHolder {
+        endTime = 0L
+        if(countDownTimer != null){
+            countDownTimer?.cancel()
+        }
         return TrainingExercisesViewHolder.create(parent)
     }
 
@@ -49,8 +59,13 @@ class TrainingExercisesListAdapter (private val context: Context, private var ti
             holder.tickButton.visibility = View.GONE
             holder.timerTextView.visibility = View.VISIBLE
 
-            val totalMillis = current.time * 1000L
-            val countDownTimer = object : CountDownTimer(totalMillis, 1000) {
+            var timeLeft = endTime - System.currentTimeMillis()
+            if(timeLeft <= 0){
+                val totalMillis = current.time * 1000L
+                endTime = System.currentTimeMillis() + totalMillis;
+                timeLeft = endTime - System.currentTimeMillis()
+            }
+            countDownTimer = object : CountDownTimer(timeLeft, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     val seconds = millisUntilFinished / 1000
                     val minutes = seconds / 60
@@ -63,7 +78,7 @@ class TrainingExercisesListAdapter (private val context: Context, private var ti
                     holder.tickButton.visibility = View.VISIBLE
                 }
             }
-            countDownTimer.start()
+            countDownTimer?.start()
         } else if (position == currentExerciseIndex) {
             holder.tickButton.visibility = View.VISIBLE
             holder.timerTextView.visibility = View.GONE
