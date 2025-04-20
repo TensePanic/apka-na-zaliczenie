@@ -10,13 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.myapp.myapplication.activity_view.AddingSetActivity
 import com.myapp.myapplication.data_access_layer.model.ExerciseSetDisplay
 
-class TrainingExercisesListAdapter (private val context: Context, private var tickClickListener: (Int, ExerciseSetDisplay) -> Unit) :
+class TrainingExercisesListAdapter (private val context: Context, private var tickClickListener: (Int, ExerciseSetDisplay, Boolean) -> Unit) :
     ListAdapter<ExerciseSetDisplay, TrainingExercisesListAdapter.TrainingExercisesViewHolder>(TrainingExercisesComparator()) {
 
     private var currentExerciseIndex: Int = -1
@@ -78,7 +79,7 @@ class TrainingExercisesListAdapter (private val context: Context, private var ti
         val tickButton: ImageButton = itemView.findViewById(R.id.tickButton)
         val timerTextView: TextView = itemView.findViewById(R.id.timerTextView)
 
-        fun bind(item: ExerciseSetDisplay, isCurrent: Boolean, tickClickListener: (Int, ExerciseSetDisplay) -> Unit) {
+        fun bind(item: ExerciseSetDisplay, isCurrent: Boolean, tickClickListener: (Int, ExerciseSetDisplay, Boolean) -> Unit) {
             exerciseNameTextView.text = item.exerciseName
             exerciseDetailsTextView.text = buildString {
                 if (item.reps != null) append("Powtórzenia: ${item.reps}  ")
@@ -91,10 +92,10 @@ class TrainingExercisesListAdapter (private val context: Context, private var ti
                 )
 
                 tickButton.setOnClickListener {
-                    tickClickListener.invoke(adapterPosition, item)
+                    tickClickListener.invoke(adapterPosition, item, timerTextView.isVisible)
                 }
                 timerTextView.setOnClickListener{
-                    tickClickListener.invoke(adapterPosition, item)}
+                    tickClickListener.invoke(adapterPosition, item, timerTextView.isVisible)}
             }
         }
 

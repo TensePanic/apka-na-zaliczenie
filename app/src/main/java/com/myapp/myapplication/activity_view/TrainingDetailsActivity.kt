@@ -42,8 +42,8 @@ class TrainingDetailsActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
 
         trainingExercisesListAdapter =
-            TrainingExercisesListAdapter(this@TrainingDetailsActivity){ index, item ->
-                onClickAction(index, item)
+            TrainingExercisesListAdapter(this@TrainingDetailsActivity){ index, item, isTimerOn ->
+                onClickAction(index, item, isTimerOn)
             }
                 recyclerView.adapter = trainingExercisesListAdapter
                 recyclerView.layoutManager = LinearLayoutManager(this)
@@ -128,8 +128,8 @@ class TrainingDetailsActivity : AppCompatActivity() {
                 }
 
             }
-    private fun onClickAction(index: Int, item: ExerciseSetDisplay){
-        if(item.exerciseType == ExerciseType.TIME.displayName)
+    private fun onClickAction(index: Int, item: ExerciseSetDisplay, isTimerOn: Boolean){
+        if(item.exerciseType == ExerciseType.TIME.displayName && isTimerOn)
             showSkipConfirmationDialog(index)
         else
             endSet(index)
