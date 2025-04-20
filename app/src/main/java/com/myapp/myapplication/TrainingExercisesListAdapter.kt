@@ -10,21 +10,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.myapp.myapplication.activity_view.AddingSetActivity
 import com.myapp.myapplication.data_access_layer.model.ExerciseSetDisplay
+import androidx.core.graphics.toColorInt
 
 class TrainingExercisesListAdapter (private val context: Context, private var tickClickListener: (Int, ExerciseSetDisplay, Boolean) -> Unit) :
     ListAdapter<ExerciseSetDisplay, TrainingExercisesListAdapter.TrainingExercisesViewHolder>(TrainingExercisesComparator()) {
 
     private var currentExerciseIndex: Int = -1
-    private var endTime = 0L
+    private var endTime = Long.MAX_VALUE
+    private var isTimerOn = false
     private var countDownTimer: CountDownTimer? = null
     fun setCurrentExercise(index: Int) {
-        endTime = 0L
+        endTime = Long.MAX_VALUE
         if(countDownTimer != null){
             countDownTimer?.cancel()
         }
@@ -35,7 +40,7 @@ class TrainingExercisesListAdapter (private val context: Context, private var ti
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingExercisesViewHolder {
-        endTime = 0L
+        endTime = Long.MAX_VALUE
         if(countDownTimer != null){
             countDownTimer?.cancel()
         }
@@ -61,6 +66,10 @@ class TrainingExercisesListAdapter (private val context: Context, private var ti
 
             var timeLeft = endTime - System.currentTimeMillis()
             if(timeLeft <= 0){
+                holder.tickButton.visibility = View.VISIBLE
+                holder.timerTextView.visibility = View.GONE
+            }
+            else if(endTime == Long.MAX_VALUE){
                 val totalMillis = current.time * 1000L
                 endTime = System.currentTimeMillis() + totalMillis;
                 timeLeft = endTime - System.currentTimeMillis()
@@ -89,6 +98,7 @@ class TrainingExercisesListAdapter (private val context: Context, private var ti
     }
 
     class TrainingExercisesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val materialCardView: MaterialCardView = itemView.findViewById(R.id.materialcardview)
         private val exerciseNameTextView: TextView = itemView.findViewById(R.id.exerciseNameTextView)
         private val exerciseDetailsTextView: TextView = itemView.findViewById(R.id.exerciseDetailsTextView)
         val tickButton: ImageButton = itemView.findViewById(R.id.tickButton)
@@ -102,8 +112,9 @@ class TrainingExercisesListAdapter (private val context: Context, private var ti
                 if (item.time != null) append("Czas: ${item.time}s  ")
                 if (item.distance != null) append("Dystans: ${item.distance}m")
 
-                itemView.setBackgroundColor(
-                    if (isCurrent) Color.parseColor("#DFF0D8") else Color.TRANSPARENT
+                materialCardView.setCardBackgroundColor(
+                    if (isCurrent) ContextCompat.getColor(itemView.context, R.color.activeSet)
+                    else ContextCompat.getColor(itemView.context, R.color.colorPrimary)
                 )
 
                 tickButton.setOnClickListener {
