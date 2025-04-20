@@ -97,8 +97,11 @@ class AddingSetActivity : AppCompatActivity() {
             val mainValueText = repsInput.text.toString()
             val weightValueText = weightInput.text.toString()
 
-            if (mainValueText.isBlank()) {
-                Toast.makeText(this, "Podaj liczbę powtórzeń!", Toast.LENGTH_SHORT).show()
+            val mainVal = mainValueText.toIntOrNull()
+            if ((mainVal == null || mainVal <= 0)
+                && (exerciseType == ExerciseType.WITH_WEIGHTS.displayName
+                        || exerciseType == ExerciseType.WITHOUT_WEIGHTS.displayName)) {
+                Toast.makeText(this, "Niepoprawna liczba powtórzeń!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -107,9 +110,10 @@ class AddingSetActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val mainVal = mainValueText.toIntOrNull()
-            if (mainVal == null || mainVal <= 0) {
-                Toast.makeText(this, "Niepoprawna liczba!", Toast.LENGTH_SHORT).show()
+            if ((exerciseType == ExerciseType.TIME.displayName
+                        || exerciseType == ExerciseType.DISTANCE.displayName)
+                && (mainValueText.isBlank() && weightValueText.isBlank())) {
+                Toast.makeText(this, "Podaj wartość!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -119,7 +123,7 @@ class AddingSetActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            exerciseSet = addingSetViewModel.updateSetValue(exerciseSet!!, exerciseType, mainVal, weightVal)
+            exerciseSet = addingSetViewModel.updateSetValue(exerciseSet!!, exerciseType, mainVal ?: 0, weightVal ?: 0)
 
             // Dodajesz do bazy
             if (exerciseSet != null) {

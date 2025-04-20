@@ -86,8 +86,8 @@ class AddingSetViewModel(private val repository: AppRepository) : ViewModel() {
     fun updateSetValue(
         set: TrainingExerciseSet,
         exerciseType: String?,
-        mainValue: Int?,
-        weight: Int?
+        mainValue: Int,
+        weight: Int = 0
     ): TrainingExerciseSet? {
         when (exerciseType) {
             ExerciseType.WITHOUT_WEIGHTS.displayName -> {
