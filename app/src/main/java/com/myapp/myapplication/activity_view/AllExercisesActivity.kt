@@ -134,7 +134,7 @@ class AllExercisesActivity : AppCompatActivity() {
         }
 
         val weightButton = findViewById<Button>(R.id.weight_button)
-        exercisesButton.setOnClickListener {
+        weightButton.setOnClickListener {
             val intent = Intent(this@AllExercisesActivity, WeightActivity::class.java)
             startActivityForResult(intent,1)
         }
