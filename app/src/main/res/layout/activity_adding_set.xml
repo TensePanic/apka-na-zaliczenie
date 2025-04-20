@@ -45,12 +45,11 @@
         android:id="@+id/repsInput"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:hint="@string/zero"
         android:inputType="number"
         android:textAlignment="center"
-        app:layout_constraintBaseline_toBaselineOf="@id/repsLabel"
-        app:layout_constraintStart_toEndOf="@id/repsLabel" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/repsLabel" />
 
     <TextView
         android:id="@+id/repsSuffix"
@@ -59,7 +58,7 @@
         android:layout_marginStart="8dp"
         android:text="@string/reps_suffix"
         android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@id/repsLabel"
+        app:layout_constraintBaseline_toBaselineOf="@id/repsInput"
         app:layout_constraintStart_toEndOf="@id/repsInput" />
 
     <EditText
@@ -70,9 +69,8 @@
         android:inputType="number"
         android:textAlignment="center"
         android:visibility="visible"
-        app:layout_constraintBaseline_toBaselineOf="@+id/repsSuffix"
-        app:layout_constraintStart_toEndOf="@+id/repsSuffix"
-        tools:layout_editor_absoluteX="263dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/repsInput" />
 
     <TextView
         android:id="@+id/weightSuffix"
@@ -93,10 +91,9 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:text="@string/button_save"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/repsLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/weightInput" />
 
     <TextView
         android:id="@+id/exerciseDescLabel"
