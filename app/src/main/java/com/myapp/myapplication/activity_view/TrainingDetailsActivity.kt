@@ -18,6 +18,7 @@ import com.myapp.myapplication.R
 import com.myapp.myapplication.TrainingExercisesListAdapter
 import com.myapp.myapplication.TrainingsApplication
 import com.myapp.myapplication.data_access_layer.model.ExerciseSetDisplay
+import com.myapp.myapplication.infrastructure.ExerciseType
 import com.myapp.myapplication.view_model.TrainingDetailsViewModel
 import com.myapp.myapplication.view_model.TrainingDetailsViewModelFactory
 import kotlinx.coroutines.launch
@@ -128,7 +129,7 @@ class TrainingDetailsActivity : AppCompatActivity() {
 
             }
     private fun onClickAction(index: Int, item: ExerciseSetDisplay){
-        if(item.exerciseType == "Time")
+        if(item.exerciseType == ExerciseType.TIME.displayName)
             showSkipConfirmationDialog(index)
         else
             endSet(index)
