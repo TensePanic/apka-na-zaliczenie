@@ -139,6 +139,12 @@ class AllExercisesActivity : AppCompatActivity() {
             startActivityForResult(intent,1)
         }
 
+        val aboutButton = findViewById<Button>(R.id.about_button)
+        aboutButton.setOnClickListener {
+            val intent = Intent(this@AllExercisesActivity, AboutActivity::class.java)
+            startActivityForResult(intent,1)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {

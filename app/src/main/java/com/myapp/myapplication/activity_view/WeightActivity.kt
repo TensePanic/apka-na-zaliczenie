@@ -121,6 +121,12 @@ class WeightActivity : AppCompatActivity() {
             val intent = Intent(this@WeightActivity, WeightActivity::class.java)
             startActivityForResult(intent,1)
         }
+
+        val aboutButton = findViewById<Button>(R.id.about_button)
+        aboutButton.setOnClickListener {
+            val intent = Intent(this@WeightActivity, AboutActivity::class.java)
+            startActivityForResult(intent,1)
+        }
     }
 
     fun buildChart(type: Int){

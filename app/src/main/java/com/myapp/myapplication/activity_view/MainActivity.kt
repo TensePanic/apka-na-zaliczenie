@@ -161,6 +161,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, WeightActivity::class.java)
             startActivityForResult(intent,1)
         }
+        val aboutButton = findViewById<Button>(R.id.about_button)
+        aboutButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, AboutActivity::class.java)
+            startActivityForResult(intent,1)
+        }
         val itemTouchHelperCallback =
             object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
                 override fun getMovementFlags(
