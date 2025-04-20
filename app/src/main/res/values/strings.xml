@@ -5,7 +5,7 @@
     <string name="hint_exercise">Podaj nazwę nowego ćwiczenia</string>
     <string name="hint_description">Podaj instrukcje dla swojego ćwiczenia</string>
     <string name="button_save">Zapisz</string>
-    <string name="empty_not_saved">Element nie został zapisany, ponieważ jest pusty.</string>
+    <string name="empty_not_saved">Element nie został zapisany.</string>
     <string name="invalid_not_saved">Niepoprawna wartość.</string>
     <string name="button_home">Treningi</string>
     <string name="button_exercises">Ćwiczenia</string>
@@ -23,11 +23,27 @@
     <string name="exercise_desc_label">Opis ćwiczenia:</string>
     <string name="reps_suffix">powtórzeń</string>
     <string name="add_weight_entry">Dodaj wagę</string>
-    <string name="historia_wpis_w_wagi">Historia wpisów wagi:</string>
+    <string name="weight_history">Historia wpisów wagi:</string>
     <string name="_1w">1W</string>
     <string name="_1m">1M</string>
     <string name="_6m">6M</string>
     <string name="_Max">Max</string>
     <string name="menu">Menu</string>
-    <string name="about_weight">About</string>
+    <string name="apache_license">
+    Licensed under the Apache License, Version 2.0 (the "License");\n
+    you may not use this file except in compliance with the License.\n
+    You may obtain a copy of the License at:\n
+    http://www.apache.org/licenses/LICENSE-2.0\n\n
+    Unless required by applicable law or agreed to in writing, software\n
+    distributed under the License is distributed on an \"AS IS\" BASIS,\n
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
+    See the License for the specific language governing permissions and limitations under the License.
+    </string>
+    <string name="about">O aplikacji</string>
+    <string name="about_app_desc">Aplikacja umożliwia tworzenie i zarządzanie planami treningowymi.</string>
+    <string name="author">Autor:</string>
+    <string name="author_desc">Copyright 2025 Alicja Gucwa</string>
+    <string name="libraries">Zastosowane biblioteki:</string>
+    <string name="mpandroidchart_desc">• MPAndroidChart by Philipp Jahoda\n https://github.com/PhilJay/MPAndroidChart\n Licencja: Apache License, Version 2.0</string>
+    <string name="license_title">Treść licencji:</string>
 </resources>
