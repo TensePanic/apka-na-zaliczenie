@@ -22,6 +22,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.myapp.myapplication.R
 import com.myapp.myapplication.TrainingsApplication
@@ -80,19 +81,19 @@ class WeightActivity : AppCompatActivity() {
         })
         buildChart(0)
 
-        val btn1w = findViewById<Button>(R.id.btn1w)
+        val btn1w = findViewById<MaterialButton>(R.id.btn1w)
         btn1w.setOnClickListener {
             buildChart(1)
         }
-        val btn1m = findViewById<Button>(R.id.btn1m)
+        val btn1m = findViewById<MaterialButton>(R.id.btn1m)
         btn1m.setOnClickListener {
             buildChart(2)
         }
-        val btn6m = findViewById<Button>(R.id.btn6m)
+        val btn6m = findViewById<MaterialButton>(R.id.btn6m)
         btn6m.setOnClickListener {
             buildChart(3)
         }
-        val btnMax = findViewById<Button>(R.id.btn1y)
+        val btnMax = findViewById<MaterialButton>(R.id.btn1y)
         btnMax.setOnClickListener {
             buildChart(0)
         }

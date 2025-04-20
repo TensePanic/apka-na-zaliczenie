@@ -22,4 +22,11 @@
     <string name="lorem_ipsum">Lorem ipsum</string>
     <string name="exercise_desc_label">Opis ćwiczenia:</string>
     <string name="reps_suffix">powtórzeń</string>
+    <string name="add_weight_entry">Dodaj wagę</string>
+    <string name="historia_wpis_w_wagi">Historia wpisów wagi:</string>
+    <string name="_1w">1W</string>
+    <string name="_1m">1M</string>
+    <string name="_6m">6M</string>
+    <string name="_Max">Max</string>
+    <string name="menu">Menu</string>
 </resources>
