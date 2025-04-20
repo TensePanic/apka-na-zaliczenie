@@ -113,7 +113,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
                 android:id="@+id/weightHistoryLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/historia_wpis_w_wagi"
+                android:text="@string/weight_history"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"
@@ -182,6 +182,6 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:text="@string/about_weight" />
+        android:text="@string/about" />
 </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>
