@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_main)
         createNotificationChannel(this)
-        scheduleDailyNotification(this, 21, 42)  // codziennie o 18:00
+        scheduleDailyNotification(this, 8, 0)  // codziennie o 8:00
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
